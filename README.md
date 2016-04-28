@@ -1,9 +1,11 @@
 # front-end-technical-assignment
 
-Make a system in PHP to collect the last 30 days of weather data from forecast.io API for a given location. We expect you to do multiple API requests simultaneously.
+Make an application that allows the user to browse the weather forecast for a given location, as well as weather information from up to 30 days ago.
 
-You can find the API documentation here: https://developer.forecast.io/docs/v2.  
-Apply for a API key here: https://developer.forecast.io/register
+The UI should use [ReactJS](https://facebook.github.io/react/) and communicate to the [Forecast.io API](https://developer.forecast.io/docs/v2) through a PHP backend.
+
+- [Apply for an API key](https://developer.forecast.io/register)
+
 
 # Timing
 
