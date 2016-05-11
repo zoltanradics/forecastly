@@ -1,4 +1,4 @@
-# front-end-technical-assignment
+# Assignment
 
 Make an application that allows the user to browse the weather forecast for a given location, as well as weather information from up to 30 days ago.
 
