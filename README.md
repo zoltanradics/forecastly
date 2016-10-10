@@ -2,7 +2,7 @@
 
 Make an application that allows the user to browse the weather forecast for a given location, as well as weather information from up to 30 days ago.
 
-The UI should use [ReactJS](https://facebook.github.io/react/) and communicate to the [Forecast.io API](https://developer.forecast.io/docs/v2) through a PHP backend.
+The UI should use [ReactJS](https://facebook.github.io/react/) and [Redux](http://redux.js.org/) to communicate to the [Forecast.io API](https://developer.forecast.io/docs/v2) through a PHP backend.
 
 - [Apply for an API key](https://developer.forecast.io/register)
 
