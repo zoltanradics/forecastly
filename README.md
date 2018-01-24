@@ -10,7 +10,7 @@ The three pillars of of frontend development are HTML, CSS and JavaScript. We wo
 
 - Use the [ReactJS](https://facebook.github.io/react/) framework in combination with [Redux](http://redux.js.org/) to create a simple web-app to display the weather data.
 - Pay attention to semantics. Any HTML might work, but choosing the right tags show you care.
-- Create a simple UI which show you know how to create modern user interfaces using CSS or your favourite CSS preprocessor.
+- Create a simple UI which shows you know how to create modern user interfaces using CSS or your favourite CSS preprocessor.
 
 ## Backend
 
