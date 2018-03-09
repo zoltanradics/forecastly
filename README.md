@@ -13,4 +13,4 @@ The three pillars of front-end development are HTML, CSS and JavaScript. We woul
 
 **Timing**
 
-We don't specify a timeframe for the assignment. Just ping us when you are done, on this endpoint: `https://hooks.slack.com/services/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`([Slack incoming webhooks](https://api.slack.com/incoming-webhooks)). Please mention your name and a link to what we need to review.
+We don't specify a timeframe for the assignment. Just ping us when you are done, on this endpoint ([Slack incoming webhooks](https://api.slack.com/incoming-webhooks)): `https://hooks.slack.com/services/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`. Please mention your name and a link to what we need to review.
