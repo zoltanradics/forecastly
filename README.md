@@ -6,7 +6,7 @@ You are free to use the tools and frameworks you prefer unless stated otherwise.
 **Requirements**
 
 The three pillars of front-end development are HTML, CSS and JavaScript. We would like to see you know how to use them for the right job.
-* Use ReactJS in combination with Redux
+* Use ReactJS
 * Pay attention to semantics: any HTML might work, but choosing the right tags show you care
 * Show us you know how to create a modern user interface using CSS or your favourite CSS preprocessor
 * Communicate to the Dark Sky API through a PHP back-end
