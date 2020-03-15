@@ -10,11 +10,11 @@ const getJsonResponse = async (response) => {
 }
 
 // Send request to location API
-export const sendLocationApiRequest = async (locationApiEndpoint) => {
+export const sendHttpRequest = async (endpoint) => {
   try {
-    const response = await fetch(locationApiEndpoint)
+    const response = await fetch(endpoint)
     return await getJsonResponse(response)
   } catch (error) {
-    throw new Error(`Something went wrong: Location request has failed!`)
+    throw new Error(`Something went wrong: HTTP Request has failed!`)
   }
 }

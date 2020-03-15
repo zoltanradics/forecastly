@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import fetch from 'node-fetch'
 
-import { sendLocationApiRequest } from './helpers'
+import { sendHttpRequest } from './helpers'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const PORT = isDev ? 3000 : 80
@@ -20,7 +20,13 @@ const getLocationApiEndpoint = (ip) =>
   `${IP_LOCATION_API_ENDPOINT}&ipAddress=${ip}`
 
 const getDarkSkyApiEndpoint = (lat, lng, time) =>
-  `${DARK_SKY_API_ENDPOINT}/${lat},${lng}` + (time ? `,${time}` : ``)
+  `${DARK_SKY_API_ENDPOINT}/${lat},${lng}` +
+  (time ? `,${time}` : ``) +
+  `?exclude=minutely,hourly,alerts,daily`
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// ROUTES
 
 // Define route for find out client's location
 app.get('/location', async (req, res) => {
@@ -31,12 +37,33 @@ app.get('/location', async (req, res) => {
 
   // Fetch location by IP address
   try {
-    const { ip, location } = await sendLocationApiRequest(locationApiEndpoint)
+    const { ip, location } = await sendHttpRequest(locationApiEndpoint)
     res.json({ ip, location })
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong!' })
   }
 })
+
+// Define route for find out client's location
+app.get('/weather', async (req, res) => {
+  const ip = isDev
+    ? testIpAddress
+    : req.headers['x-forwarded-for'] || req.connection.remoteAddress
+  const locationApiEndpoint = getLocationApiEndpoint(ip)
+
+  try {
+    const {
+      location: { lat, lng },
+    } = await sendHttpRequest(locationApiEndpoint)
+    const darkSkyApiEndpoint = getDarkSkyApiEndpoint(lat, lng)
+    const data = await sendHttpRequest(darkSkyApiEndpoint)
+    res.json(data)
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong!' })
+  }
+})
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Check if mandatory keys are defined
 if (typeof IP_LOCATION_KEY === 'undefined') {
