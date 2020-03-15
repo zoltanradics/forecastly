@@ -10,11 +10,12 @@ export const sendHttpRequest = async (endpoint) => {
   }
 }
 
-// Construct location APi endpoint
+// Construct location APi endpoint URL
 export const getLocationApiEndpoint = (ipLocationApiEndpoint, ip) =>
   `${ipLocationApiEndpoint}&ipAddress=${ip}`
 
+// Construct Dark Sky API endpoint URL
 export const getDarkSkyApiEndpoint = (darkSkyApiEndpoint, lat, lng, time) =>
   `${darkSkyApiEndpoint}/${lat},${lng}` +
   (time ? `,${time}` : ``) +
-  `?exclude=minutely,hourly,alerts,currently,daily,flags&units=si`
+  `?exclude=minutely,hourly,alerts,currently,flags&units=si`
