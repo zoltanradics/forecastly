@@ -54,7 +54,7 @@ app.get('/weather', async (req, res) => {
 
   try {
     const {
-      location: { lat, lng },
+      location: { lat, lng, city },
     } = await sendHttpRequest(locationApiEndpoint)
     const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
       DARK_SKY_API_ENDPOINT,
@@ -62,7 +62,7 @@ app.get('/weather', async (req, res) => {
       lng
     )
     const data = await sendHttpRequest(darkSkyApiEndpoint)
-    res.json(data)
+    res.json(Object.assign(data, { city }))
   } catch (error) {
     res.status(500).json({ message: 'Something went wrong!' })
   }
