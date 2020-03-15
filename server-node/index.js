@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import fetch from 'node-fetch'
 
 const isDev = process.env.NODE_ENV !== 'production'
@@ -10,6 +11,7 @@ const DARK_SKY_KEY = process.env.DARK_SKY_KEY
 const DARK_SKY_API = `https://api.darksky.net/forecast/${DARK_SKY_KEY}/`
 
 const app = express()
+app.use(cors())
 
 // Construct location APi endpoint
 const getLocationApiEndpoint = (ip) => `${IP_LOCATION_API}&ipAddress=${ip}`
