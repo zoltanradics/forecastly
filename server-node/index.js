@@ -21,22 +21,20 @@ const getDarkSkyApiEndpoint = (lat, lng, time) =>
   `${DARK_SKY_API_ENDPOINT}/${lat},${lng}` + (time ? `,${time}` : ``)
 
 // Define route for find out client's location
-app.get('/location', (req, res, next) => {
+app.get('/location', async (req, res) => {
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
   const locationApiEndpoint = getLocationApiEndpoint(ip)
 
   // Fetch location by IP address
-  fetch(locationApiEndpoint)
-    .then((response) => response.json())
-    .then((data) => {
-      const { ip, location } = data
-      res.json({ ip, location })
-    })
-    .catch((err) => {
-      res.status(500).json({ message: 'Something went wrong!' })
-    })
+  try {
+    const locationResponse = await fetch(locationApiEndpoint)
+    const { ip, location } = await locationResponse.json()
+    res.json({ ip, location })
+  } catch (err) {
+    res.status(500).json({ message: 'Something went wrong!' })
+  }
 })
 
 // Check if mandatory keys are defined
