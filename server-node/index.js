@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import fetch from 'node-fetch'
 
+import { sendLocationApiRequest } from './helpers'
+
 const isDev = process.env.NODE_ENV !== 'production'
 const PORT = isDev ? 3000 : 80
 const testIpAddress = '77.57.123.202' // This IP address is for Zurich / Switzerland
@@ -29,10 +31,9 @@ app.get('/location', async (req, res) => {
 
   // Fetch location by IP address
   try {
-    const locationResponse = await fetch(locationApiEndpoint)
-    const { ip, location } = await locationResponse.json()
+    const { ip, location } = await sendLocationApiRequest(locationApiEndpoint)
     res.json({ ip, location })
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({ message: 'Something went wrong!' })
   }
 })
