@@ -17,4 +17,4 @@ export const getLocationApiEndpoint = (ipLocationApiEndpoint, ip) =>
 export const getDarkSkyApiEndpoint = (darkSkyApiEndpoint, lat, lng, time) =>
   `${darkSkyApiEndpoint}/${lat},${lng}` +
   (time ? `,${time}` : ``) +
-  `?exclude=minutely,hourly,alerts,daily`
+  `?exclude=minutely,hourly,alerts,currently,daily,flags&units=si`
