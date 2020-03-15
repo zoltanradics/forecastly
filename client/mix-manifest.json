@@ -1,0 +1,8 @@
+{
+    "/public/bundle.js": "/public/bundle.js",
+    "/public/bundle.css": "/public/bundle.css",
+    "/public/manifest.js": "/public/manifest.js",
+    "/public/vendor.js": "/public/vendor.js",
+    "/public/index.html": "/public/index.html",
+    "/public/manifest.json": "/public/manifest.json"
+}
