@@ -9,3 +9,12 @@ export const sendHttpRequest = async (endpoint) => {
     throw new Error(`Something went wrong: HTTP Request has failed!`)
   }
 }
+
+// Construct location APi endpoint
+export const getLocationApiEndpoint = (ipLocationApiEndpoint, ip) =>
+  `${ipLocationApiEndpoint}&ipAddress=${ip}`
+
+export const getDarkSkyApiEndpoint = (darkSkyApiEndpoint, lat, lng, time) =>
+  `${darkSkyApiEndpoint}/${lat},${lng}` +
+  (time ? `,${time}` : ``) +
+  `?exclude=minutely,hourly,alerts,daily`

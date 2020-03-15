@@ -2,7 +2,11 @@ import express from 'express'
 import cors from 'cors'
 import fetch from 'node-fetch'
 
-import { sendHttpRequest } from './helpers'
+import {
+  sendHttpRequest,
+  getLocationApiEndpoint,
+  getDarkSkyApiEndpoint,
+} from './helpers'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const PORT = isDev ? 3000 : 80
@@ -15,15 +19,6 @@ const DARK_SKY_API_ENDPOINT = `https://api.darksky.net/forecast/${DARK_SKY_KEY}`
 const app = express()
 app.use(cors())
 
-// Construct location APi endpoint
-const getLocationApiEndpoint = (ip) =>
-  `${IP_LOCATION_API_ENDPOINT}&ipAddress=${ip}`
-
-const getDarkSkyApiEndpoint = (lat, lng, time) =>
-  `${DARK_SKY_API_ENDPOINT}/${lat},${lng}` +
-  (time ? `,${time}` : ``) +
-  `?exclude=minutely,hourly,alerts,daily`
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // ROUTES
@@ -33,7 +28,10 @@ app.get('/location', async (req, res) => {
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
-  const locationApiEndpoint = getLocationApiEndpoint(ip)
+  const locationApiEndpoint = getLocationApiEndpoint(
+    IP_LOCATION_API_ENDPOINT,
+    ip
+  )
 
   // Fetch location by IP address
   try {
@@ -49,13 +47,20 @@ app.get('/weather', async (req, res) => {
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
-  const locationApiEndpoint = getLocationApiEndpoint(ip)
+  const locationApiEndpoint = getLocationApiEndpoint(
+    IP_LOCATION_API_ENDPOINT,
+    ip
+  )
 
   try {
     const {
       location: { lat, lng },
     } = await sendHttpRequest(locationApiEndpoint)
-    const darkSkyApiEndpoint = getDarkSkyApiEndpoint(lat, lng)
+    const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
+      DARK_SKY_API_ENDPOINT,
+      lat,
+      lng
+    )
     const data = await sendHttpRequest(darkSkyApiEndpoint)
     res.json(data)
   } catch (error) {
