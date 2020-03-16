@@ -45,25 +45,34 @@ app.get('/weather', async (req, res) => {
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+  // Request users's location by IP address
   const locationApiEndpoint = getLocationApiEndpoint(
     IP_LOCATION_API_ENDPOINT,
     ip
   )
+  const { location } = await sendHttpRequest(locationApiEndpoint).catch(
+    (error) => {
+      res
+        .status(500)
+        .json({ message: `Something went wrong: Requesting user's location!` })
+    }
+  )
 
-  try {
-    const {
-      location: { lat, lng, city },
-    } = await sendHttpRequest(locationApiEndpoint)
-    const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
-      DARK_SKY_API_ENDPOINT,
-      lat,
-      lng
-    )
-    const data = await sendHttpRequest(darkSkyApiEndpoint)
-    res.json(Object.assign(data, { city }))
-  } catch (error) {
-    res.status(500).json({ message: 'Something went wrong!' })
-  }
+  // Request user's weather by location
+  const { lat, lng, city } = location
+  const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
+    DARK_SKY_API_ENDPOINT,
+    lat,
+    lng
+  )
+  const data = await sendHttpRequest(darkSkyApiEndpoint).catch((error) => {
+    res
+      .status(500)
+      .json({ message: `Something went wrong: Requesting user's weather!` })
+  })
+
+  res.json(Object.assign(data, { city }))
 })
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
