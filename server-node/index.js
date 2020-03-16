@@ -53,7 +53,7 @@ app.get('/weather', async (req, res) => {
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
   // Request location by ip address if lat and lng quuery params are defined
-  if (typeof lat === 'undefined' && typeof lng === 'undefined') {
+  if (typeof lattitude === 'undefined' && typeof longitude === 'undefined') {
     const locationApiEndpoint = getLocationApiEndpoint(
       IP_LOCATION_API_ENDPOINT,
       ip
