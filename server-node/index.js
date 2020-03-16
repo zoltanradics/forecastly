@@ -44,7 +44,8 @@ app.get('/location', async (req, res) => {
 
 app.get('/weather', async (req, res) => {
   // Get query parameters
-  const { lat, lng, timestamp } = req.query
+  let { lattitude, longitude, timestamp } = req.query
+  let cityName
 
   // Get user's ip address
   const ip = isDev
@@ -65,13 +66,17 @@ app.get('/weather', async (req, res) => {
         message: `Something went wrong: Requesting user's location!`,
       })
     })
+
+    lattitude = lat
+    longitude = lng
+    cityName = city
   }
 
   // Request user's weather by location
   const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
     DARK_SKY_API_ENDPOINT,
-    lat,
-    lng,
+    lattitude,
+    longitude,
     timestamp
   )
 
@@ -81,7 +86,7 @@ app.get('/weather', async (req, res) => {
       .json({ message: `Something went wrong: Requesting user's weather!` })
   })
 
-  res.json(data)
+  res.json(Object.assign(data, { city: cityName }))
 })
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
