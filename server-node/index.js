@@ -27,18 +27,19 @@ app.get('/location', async (req, res) => {
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+  // Request users's location by IP address
   const locationApiEndpoint = getLocationApiEndpoint(
     IP_LOCATION_API_ENDPOINT,
     ip
   )
+  const { ip, location } = await sendHttpRequest(locationApiEndpoint).catch(
+    (error) => {
+      res.status(500).json({ message: 'Something went wrong!' })
+    }
+  )
 
-  // Fetch location by IP address
-  try {
-    const { ip, location } = await sendHttpRequest(locationApiEndpoint)
-    res.json({ ip, location })
-  } catch (error) {
-    res.status(500).json({ message: 'Something went wrong!' })
-  }
+  res.json({ ip, location })
 })
 
 app.get('/weather', async (req, res) => {
