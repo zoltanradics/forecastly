@@ -23,7 +23,6 @@ app.use(cors())
 
 // ROUTES
 
-// Define route for find out client's location
 app.get('/location', async (req, res) => {
   const ip = isDev
     ? testIpAddress
@@ -42,7 +41,6 @@ app.get('/location', async (req, res) => {
   }
 })
 
-// Define route for find out client's location
 app.get('/weather', async (req, res) => {
   const ip = isDev
     ? testIpAddress
