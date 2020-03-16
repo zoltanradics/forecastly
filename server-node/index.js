@@ -45,12 +45,14 @@ app.get('/location', async (req, res) => {
 app.get('/weather', async (req, res) => {
   // Get query parameters
   const { lat, lng, timestamp } = req.query
+
+  // Get user's ip address
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
+  // Request location by ip address if lat and lng quuery params are defined
   if (typeof lat === 'undefined' && typeof lng === 'undefined') {
-    // Request users's location by IP address
     const locationApiEndpoint = getLocationApiEndpoint(
       IP_LOCATION_API_ENDPOINT,
       ip
