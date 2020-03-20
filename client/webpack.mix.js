@@ -12,12 +12,11 @@ const mix = require('laravel-mix')
  */
 
 mix
-  // .reactTypeScript('./src/index.tsx', './public/bundle.js')
   .react('./src/index.jsx', './public/bundle.js')
   .sass('./src/index.scss', './public/bundle.css')
   .extract()
   .copy(['./src/index.html', './src/manifest.json'], './public/')
-  .copy('./src/assets/icons/', './public/assets/icons')
+  .copyDirectory('./src/assets', './public/assets')
 
 // Full API
 // mix.js(src, output);
