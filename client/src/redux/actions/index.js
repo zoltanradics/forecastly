@@ -5,6 +5,7 @@ export const actionTypes = {
 }
 
 const locationApiEndpoint = 'http://localhost:3000/location'
+const weatherApiEndpoint = 'http://localhost:3000/weather'
 
 export const requestLocationAction = () => async (dispatch) => {
   // Send request to get location data (and handle error)
