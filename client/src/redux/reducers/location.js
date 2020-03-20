@@ -1,27 +1,16 @@
 import { actionTypes } from '../actions'
 
-const initialState = {
-  city: null,
-  country: null,
-  region: null,
-  lat: null,
-  lng: null,
-  postalCode: null,
-  timezone: null,
-  geonameId: null,
-}
-
-const location = (state = initialState, action) => {
+const reducer = (state = {}, action) => {
   const { type, payload } = action
   switch (type) {
-    case actionTypes.REQUEST_LOCATION_SUCCESS:
+    case actionTypes.SET_LOCATION:
       return {
         ...state,
-        ...payload,
+        city: payload,
       }
   }
 
   return state
 }
 
-export default location
+export default reducer
