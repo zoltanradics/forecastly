@@ -1,15 +1,18 @@
 import React from 'react'
+import classNames from 'classnames'
 import ReactAnimatedWeather from 'react-animated-weather'
 
 import { getDayAbbrev, round } from '../../utils'
 
 const Daily = ({ daily }) => (
   <ul className="daily">
-    {Object.keys(daily).map((key) => {
+    {Object.keys(daily).map((key, index) => {
       const dailyData = daily[key]
       const iconString = dailyData.icon.toUpperCase().replace(/-/g, '_')
       return (
-        <li key={dailyData.time}>
+        <li
+          className={classNames('', { today: index === 0 })}
+          key={dailyData.time}>
           <div className="col day">
             <div className="label text-center">
               {getDayAbbrev(

@@ -1,5 +1,8 @@
 $text-color-primary: #444;
 
+$background-default: #eee;
+$background-sunny: #fbb632;
+
 html,
 body {
   margin: 0;
@@ -13,11 +16,11 @@ body {
   padding: 0;
   font-size: 14px;
   font-weight: 500;
-  background-color: #eee;
+  background-color: $background-default;
 }
 
 .sunny {
-  background-color: #fbb632;
+  background-color: $background-sunny;
 }
 
 main {
@@ -172,6 +175,10 @@ main {
     margin-bottom: 0.2rem;
     background-color: #fafafa;
     border-radius: 0.8rem;
+
+    &.today {
+      background-color: #eee;
+    }
 
     .temperature {
       width: 6em;
