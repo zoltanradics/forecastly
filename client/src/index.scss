@@ -1,8 +1,11 @@
+$text-color-primary: #444;
+
 html,
 body {
   margin: 0;
   padding: 0;
   font-family: 'Inter', sans-serif;
+  color: $text-color-primary;
 }
 
 body {
@@ -27,28 +30,29 @@ main {
 
 .box {
   width: 20rem;
-
-  h1.app-name {
-    font-size: 2rem;
-  }
+  box-sizing: border-box;
 
   &--inner {
-    box-sizing: border-box;
-    padding: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    height: 30rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
     background-color: white;
     border-radius: 0.8rem;
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.15);
   }
 }
 
-.location {
+.location__ {
   display: block;
   box-sizing: border-box;
   border: none;
   padding: 0.4rem;
   width: 100%;
-  font-family: 'Inter', sans-serif;
   font-weight: 400;
   font-size: 1.4rem;
 
@@ -70,4 +74,53 @@ main {
 
 .m-0 {
   margin: 0;
+}
+
+.location {
+  text-align: left;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02rem;
+}
+
+.current-temperature {
+  font-size: 6rem;
+  font-weight: 700;
+  text-align: center;
+
+  .calsius {
+    line-height: 0rem;
+  }
+}
+
+.loading-spinner {
+  text-align: center;
+
+  .svg {
+    margin-bottom: 1rem;
+  }
+
+  .label {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #ddd;
+  }
+}
+
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
 }
