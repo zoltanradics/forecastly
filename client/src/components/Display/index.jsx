@@ -1,10 +1,15 @@
 import React from 'react'
 
-const Display = () => (
-  <div className="display">
-    <div className="header"></div>
-    <div className="location">Zurich</div>
-  </div>
-)
+import Currently from '../Currently'
+import Daily from '../Daily'
+
+const Display = ({ city, daily, currently }) => {
+  return (
+    <div className="display">
+      <Currently city={city} currently={currently} />
+      <Daily daily={daily} />
+    </div>
+  )
+}
 
 export default Display

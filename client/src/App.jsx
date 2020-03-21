@@ -10,9 +10,10 @@ import Display from './components/Display'
 
 const App = () => {
   const dispatch = useDispatch()
-  const { daily, currently, weatherLoaded } = useSelector(
-    (store) => store.weather
-  )
+  const {
+    location: { city },
+    weather: { daily, currently, weatherLoaded },
+  } = useSelector((store) => store)
 
   useEffect(() => {
     dispatch(requestWeatherAction())
@@ -26,7 +27,7 @@ const App = () => {
             'box--inner__align-middle': !weatherLoaded,
           })}>
           {weatherLoaded ? (
-            <Display daily={daily} currently={currently} />
+            <Display city={city} daily={daily} currently={currently} />
           ) : (
             <Loading />
           )}
