@@ -51,6 +51,9 @@ export const requestWeatherAction = (lattitude, longitude, timestamp) => async (
   // Add weather data to redux store
   dispatch({
     type: actionTypes.REQUEST_WEATHER_SUCCESS,
-    payload: data.daily,
+    payload: {
+      daily: data.daily,
+      currently: data.currently,
+    },
   })
 }

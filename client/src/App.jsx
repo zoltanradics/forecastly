@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import classNames from 'classnames'
 
 import { requestWeatherAction } from './redux/actions'
 
-import { getDateString } from '../../utils'
+import { getDateString } from './utils'
 import Loading from './components/Loading'
 import Display from './components/Display'
 
 const App = () => {
   const dispatch = useDispatch()
-  const { data } = useSelector((store) => store.weather)
-  const date = getDateString(new Date())
-  const dailyWeatherData = data[date]
+  const { daily, currently, weatherLoaded } = useSelector(
+    (store) => store.weather
+  )
 
   useEffect(() => {
     dispatch(requestWeatherAction())
@@ -22,9 +23,13 @@ const App = () => {
       <div className="box">
         <div
           className={classNames('box--inner', {
-            'box--inner__align-middle': !dailyWeatherData,
+            'box--inner__align-middle': !weatherLoaded,
           })}>
-          {dailyWeatherData ? <Display data={dailyWeatherData} /> : <Loading />}
+          {weatherLoaded ? (
+            <Display daily={daily} currently={currently} />
+          ) : (
+            <Loading />
+          )}
         </div>
       </div>
     </main>
