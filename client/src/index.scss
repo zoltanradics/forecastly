@@ -49,8 +49,12 @@ main {
       justify-content: center;
     }
 
-    .display {
+    &__full-height {
       height: 30rem;
+    }
+
+    .display {
+      height: 100%;
       position: relative;
     }
   }

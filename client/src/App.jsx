@@ -25,6 +25,7 @@ const App = () => {
         <div
           className={classNames('box--inner', {
             'box--inner__align-middle': !weatherLoaded,
+            'box--inner__full-height': weatherLoaded,
           })}>
           {weatherLoaded ? (
             <Display city={city} daily={daily} currently={currently} />

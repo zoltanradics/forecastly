@@ -30,7 +30,7 @@ const Daily = ({ daily }) => (
               <ReactAnimatedWeather
                 icon={iconString}
                 color={'black'}
-                size={28}
+                size={26}
                 animate={false}
               />
             </div>
