@@ -13,7 +13,7 @@ const getWeatherData = (data) =>
     return acc
   }, {})
 
-const reducer = (state = {}, action) => {
+const reducer = (state = { summary: null, data: {} }, action) => {
   const { type, payload } = action
   switch (type) {
     case actionTypes.REQUEST_WEATHER_SUCCESS:
