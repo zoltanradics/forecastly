@@ -1,11 +1,13 @@
 import { actionTypes } from '../actions'
 
+import { getDateString } from '../../utils'
+
 const getWeatherData = (data) =>
   data.reduce((acc, item) => {
     // Get date from timestamp
     const date = new Date(item.time * 1000)
     // Create string from date
-    const dateString = date.toISOString().split('T')[0]
+    const dateString = getDateString(date)
     // Create object with date string key
     if (typeof acc[dateString] === 'undefined') {
       acc[dateString] = item
