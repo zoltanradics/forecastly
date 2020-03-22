@@ -44,14 +44,6 @@ main {
     border-radius: 0.8rem;
     // box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.15);
 
-    &-enter {
-      height: 10rem;
-    }
-
-    &-appear {
-      border: 1px solid red;
-    }
-
     &-enter-done {
       height: 30rem;
       transition: height 240ms ease-in-out;
@@ -193,7 +185,7 @@ main {
     padding: 0.4rem 0.8rem;
     margin-bottom: 0.2rem;
     background-color: #fafafa;
-    border-radius: 0.8rem;
+    border-radius: 0.6rem;
 
     &.today {
       background-color: #eee;
@@ -220,6 +212,10 @@ main {
         text-align: left;
       }
     }
+  }
+
+  :last-child {
+    margin-bottom: 0;
   }
 }
 
