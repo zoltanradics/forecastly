@@ -11,13 +11,10 @@ import Display from './components/Display'
 
 const App = () => {
   const dispatch = useDispatch()
-  const [displayMounted, setDisplayMounted] = useState(false)
   const {
     location: { city },
     weather: { daily, currently, weatherLoaded },
   } = useSelector((store) => store)
-
-  const showDispplay = () => setDisplayMounted(true)
 
   useEffect(() => {
     dispatch(requestWeatherAction())
@@ -26,16 +23,12 @@ const App = () => {
   return (
     <main>
       <div className="box">
-        <CSSTransition
-          in={weatherLoaded}
-          timeout={0}
-          classNames="box--inner"
-          onEntered={showDispplay}>
+        <CSSTransition in={weatherLoaded} timeout={0} classNames="box--inner">
           <div
             className={classNames('box--inner', {
               'box--inner__align-middle': !weatherLoaded,
             })}>
-            {weatherLoaded && displayMounted ? (
+            {weatherLoaded ? (
               <Display city={city} daily={daily} currently={currently} />
             ) : (
               <Loading />
