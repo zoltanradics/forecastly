@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 
-// Send request to location API
+// Send HTTP request with FETCH
 export const sendHttpRequest = async (endpoint) => {
   try {
     const response = await fetch(endpoint)
