@@ -28,7 +28,7 @@ const App = () => {
       <div className="box">
         <CSSTransition
           in={weatherLoaded}
-          timeout={800}
+          timeout={0}
           classNames="box--inner"
           onEntered={showDispplay}>
           <div
