@@ -36,12 +36,26 @@ main {
   box-sizing: border-box;
 
   &--inner {
+    height: 10rem;
     padding: 1.2rem;
     box-sizing: border-box;
     overflow: hidden;
     background: rgb(255, 255, 255);
     border-radius: 0.8rem;
     // box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.15);
+
+    &-enter {
+      height: 10rem;
+    }
+
+    &-appear {
+      border: 1px solid red;
+    }
+
+    &-enter-done {
+      height: 30rem;
+      transition: height 240ms ease-in-out;
+    }
 
     &__align-middle {
       display: flex;
@@ -116,6 +130,7 @@ main {
 .currently {
   display: flex;
   width: 100%;
+  animation: fadeIn 320ms ease-in-out;
 
   .col {
     flex: 1;
@@ -214,4 +229,13 @@ main {
 
 .text-right {
   text-align: right;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { CSSTransition } from 'react-transition-group'
 
 import Currently from '../Currently'
 import Daily from '../Daily'
