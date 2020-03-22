@@ -39,7 +39,9 @@ app.get('/location', async (req, res) => {
   )
   const { location } = await sendHttpRequest(locationApiEndpoint).catch(
     (error) => {
-      res.status(500).json({ message: 'Something went wrong!' })
+      res.status(500).json({
+        message: 'Something went wrong: Requesting location by ip address',
+      })
     }
   )
 
@@ -50,18 +52,19 @@ app.get('/geocoding', async (req, res) => {
   // Get query parameters
   let { location } = req.query
 
-  // Request users's location by IP address
+  // Request location data by location name
   const locationApiEndpoint = getOpenCageApiEndpoint(
     OPEN_CAGE_API_ENDPOINT,
     location
   )
   const response = await sendHttpRequest(locationApiEndpoint).catch((error) => {
-    res.status(500).json({ message: 'Something went wrong!' })
+    res.status(500).json({
+      message:
+        'Something went wrong: Requesting location data by location name.',
+    })
   })
 
-  const locationList = getLocationList(response)
-
-  res.json(locationList)
+  res.json(getLocationList(response))
 })
 
 app.get('/weather', async (req, res) => {
