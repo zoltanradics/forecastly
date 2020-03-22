@@ -4,13 +4,17 @@ export const actionTypes = {
   SET_LOCATION: 'SET_LOCATION',
   REQUEST_WEATHER_SUCCESS: 'REQUEST_WEATHER_SUCCESS',
   REQUEST_WEATHER_FAILED: 'REQUEST_WEATHER_FAILED',
+  REQUEST_GEOCODiNG_SUCCESS: 'REQUEST_GEOCODiNG_SUCCESS',
+  REQUEST_GEOCODING_FAILED: 'REQUEST_GEOCODING_FAILED',
 }
 
-const locationApiEndpoint = 'http://localhost:3000/location'
-const weatherApiEndpoint = 'http://localhost:3000/weather'
+const apiBaseURL = 'http://localhost:3000'
+const locationApiEndpoint = `${apiBaseURL}/location`
+const weatherApiEndpoint = `${apiBaseURL}/weather`
+const geocodingApiEndpoint = `${apiBaseURL}/geocoding`
 
 export const requestLocationAction = () => async (dispatch) => {
-  // Send request to get location data (and handle error)
+  // Send request to get data (and handle error)
   const response = await fetch(locationApiEndpoint).catch(() => {
     dispatch({
       type: actionTypes.REQUEST_LOCATION_FAILED,
@@ -27,10 +31,30 @@ export const requestLocationAction = () => async (dispatch) => {
   })
 }
 
+export const requestGeocodingAction = (locationName) => async (dispatch) => {
+  // Send request to get data (and handle error)
+  const response = await fetch(
+    `${geocodingApiEndpoint}?location=${locationName}`
+  ).catch(() => {
+    dispatch({
+      type: actionTypes.REQUEST_GEOCODING_FAILED,
+    })
+  })
+
+  // Get data from response
+  const data = await response.json()
+
+  // Add data to redux store
+  dispatch({
+    type: actionTypes.REQUEST_GEOCODiNG_SUCCESS,
+    payload: data,
+  })
+}
+
 export const requestWeatherAction = (lattitude, longitude, timestamp) => async (
   dispatch
 ) => {
-  // Send request to get weather data (and handle error)
+  // Send request to get data (and handle error)
   const response = await fetch(
     `${weatherApiEndpoint}?time=${Date.now()}`
   ).catch(() => {
