@@ -6,6 +6,8 @@ import {
   sendHttpRequest,
   getLocationApiEndpoint,
   getDarkSkyApiEndpoint,
+  getOpenCageApiEndpoint,
+  getLocationList,
 } from './helpers'
 
 const isDev = process.env.NODE_ENV !== 'production'
@@ -15,6 +17,8 @@ const IP_LOCATION_KEY = process.env.IP_LOCATION_KEY
 const IP_LOCATION_API_ENDPOINT = `https://ip-geolocation.whoisxmlapi.com/api/v1?apiKey=${IP_LOCATION_KEY}`
 const DARK_SKY_KEY = process.env.DARK_SKY_KEY
 const DARK_SKY_API_ENDPOINT = `https://api.darksky.net/forecast/${DARK_SKY_KEY}`
+const OPEN_CAGE_KEY = process.env.OPEN_CAGE_KEY
+const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json?q=__PLACENAME__&key=${OPEN_CAGE_KEY}`
 
 const app = express()
 app.use(cors())
@@ -40,6 +44,24 @@ app.get('/location', async (req, res) => {
   )
 
   res.json({ ip, location })
+})
+
+app.get('/geocoding', async (req, res) => {
+  // Get query parameters
+  let { location } = req.query
+
+  // Request users's location by IP address
+  const locationApiEndpoint = getOpenCageApiEndpoint(
+    OPEN_CAGE_API_ENDPOINT,
+    location
+  )
+  const response = await sendHttpRequest(locationApiEndpoint).catch((error) => {
+    res.status(500).json({ message: 'Something went wrong!' })
+  })
+
+  const locationList = getLocationList(response)
+
+  res.json(locationList)
 })
 
 app.get('/weather', async (req, res) => {

@@ -10,6 +10,14 @@ export const sendHttpRequest = async (endpoint) => {
   }
 }
 
+export const getLocationList = (response) =>
+  response.results.map((item) => ({
+    name: item.formatted,
+    flag: item.annotations.flag,
+    lat: item.geometry.lat,
+    lng: item.geometry.lng,
+  }))
+
 // Construct location APi endpoint URL
 export const getLocationApiEndpoint = (ipLocationApiEndpoint, ip) =>
   `${ipLocationApiEndpoint}&ipAddress=${ip}`
@@ -19,3 +27,6 @@ export const getDarkSkyApiEndpoint = (darkSkyApiEndpoint, lat, lng, time) =>
   `${darkSkyApiEndpoint}/${lat},${lng}` +
   (typeof time !== 'undefined' ? `,${time}` : ``) +
   `?exclude=minutely,hourly,alerts,flags&units=si`
+
+export const getOpenCageApiEndpoint = (openCageApiEndpoint, location) =>
+  openCageApiEndpoint.replace('__PLACENAME__', location)
