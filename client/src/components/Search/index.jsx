@@ -1,19 +1,38 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 
-import LocationGuess from '../LocationGuess'
+import { requestGeocodingAction } from '../../redux/actions'
 
 const Search = () => {
+  let timeout = null
+  const dispatch = useDispatch()
+  const inputRef = useRef()
+
+  const loadSuggestions = () => {
+    dispatch(requestGeocodingAction(inputRef.current.value))
+  }
+
+  const handleOnCange = () => {
+    clearTimeout(timeout)
+    timeout = setTimeout(loadSuggestions, 300)
+  }
+
   return (
-    <React.Fragment>
-      <form className="form">
+    <div className="search">
+      <h1>Welcome!</h1>
+      <div className="search--hint">
+        Type the name of the location, or click the compass icon and let us
+        guess where you are!
+      </div>
+      <form className="search--form">
         <input
-          className="location"
-          name="location_name"
+          name="location"
           placeholder="Enter your city"
+          onChange={handleOnCange}
+          ref={inputRef}
         />
       </form>
-      <LocationGuess />
-    </React.Fragment>
+    </div>
   )
 }
 

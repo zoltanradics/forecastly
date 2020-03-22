@@ -3,10 +3,10 @@ import { actionTypes } from '../actions'
 const reducer = (state = {}, action) => {
   const { type, payload } = action
   switch (type) {
-    case actionTypes.SET_LOCATION:
+    case actionTypes.REQUEST_LOCATION_SUCCESS:
       return {
         ...state,
-        city: payload,
+        ...payload,
       }
   }
 

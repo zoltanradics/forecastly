@@ -6,33 +6,25 @@ import classNames from 'classnames'
 import { requestWeatherAction } from './redux/actions'
 
 import { getDateString } from './utils'
+import Search from './components/Search'
 import Loading from './components/Loading'
 import Display from './components/Display'
 
 const App = () => {
   const dispatch = useDispatch()
   const {
+    layout: { loading, search },
     location: { city },
     weather: { daily, currently, weatherLoaded },
   } = useSelector((store) => store)
-
-  useEffect(() => {
-    dispatch(requestWeatherAction())
-  }, [])
 
   return (
     <main>
       <div className="box">
         <CSSTransition in={weatherLoaded} timeout={0} classNames="box--inner">
-          <div
-            className={classNames('box--inner', {
-              'box--inner__align-middle': !weatherLoaded,
-            })}>
-            {weatherLoaded ? (
-              <Display city={city} daily={daily} currently={currently} />
-            ) : (
-              <Loading />
-            )}
+          <div className="box--inner">
+            {loading && <Loading />}
+            {search && <Search />}
           </div>
         </CSSTransition>
       </div>
