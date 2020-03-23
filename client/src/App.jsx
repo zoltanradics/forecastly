@@ -13,18 +13,31 @@ import Display from './components/Display'
 const App = () => {
   const dispatch = useDispatch()
   const {
-    layout: { loading, search },
-    location: { city },
+    layout: { mode },
+    location,
     weather: { daily, currently, weatherLoaded },
   } = useSelector((store) => store)
 
+  const mainClass = currently
+    ? classNames('', {
+        sunny: currently.icon === 'clear-day',
+      })
+    : ''
+
   return (
-    <main>
+    <main className={mainClass}>
       <div className="box">
         <CSSTransition in={weatherLoaded} timeout={0} classNames="box--inner">
           <div className="box--inner">
-            {loading && <Loading />}
-            {search && <Search />}
+            {mode === 'loading' && <Loading />}
+            {mode === 'search' && <Search />}
+            {mode === 'display' && (
+              <Display
+                daily={daily}
+                currently={currently}
+                location={location}
+              />
+            )}
           </div>
         </CSSTransition>
       </div>

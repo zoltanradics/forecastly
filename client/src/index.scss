@@ -19,16 +19,18 @@ body {
   background-color: $background-default;
 }
 
-.sunny {
-  background-color: $background-sunny;
-}
-
 main {
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: $background-default;
+
+  &.sunny {
+    background-color: $background-sunny;
+    transition: background-color 2s ease-out;
+  }
 }
 
 .box {
@@ -215,26 +217,75 @@ main {
     font-weight: 300;
   }
 
-  &--hint {
+  &__hint {
     font-size: 0.85rem;
     font-weight: 700;
     margin-bottom: 1rem;
   }
 
-  &--form {
-    input {
-      display: block;
-      box-sizing: border-box;
-      padding: 0.4rem;
-      width: 100%;
-      outline: none;
-      font-size: 1.4rem;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 0.4rem;
+  &__form {
+    // border: 1px solid red;
 
-      &::placeholder {
-        color: #ddd;
+    &__input-group {
+      display: flex;
+
+      input {
+        display: block;
+        box-sizing: border-box;
+        padding: 0.4rem;
+        width: 100%;
+        outline: none;
+        font-size: 1.4rem;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-top-left-radius: 0.4rem;
+        border-bottom-left-radius: 0.4rem;
+
+        &::placeholder {
+          color: #ddd;
+        }
+      }
+
+      button {
+        display: block;
+        width: 8rem;
+        cursor: pointer;
+        font-weight: 700;
+        border: none;
+        background-color: #ddd;
+        border-top-right-radius: 0.4rem;
+        border-bottom-right-radius: 0.4rem;
+      }
+    }
+  }
+
+  &__suggestions {
+    margin: 0.4rem 0 0 0;
+    padding: 0;
+    list-style-type: none;
+    border-radius: 0.4rem;
+    border: 1px solid #ddd;
+
+    :last-child {
+      border-bottom: none;
+    }
+
+    li {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+
+      &:hover {
+        background-color: #fafafa;
+      }
+
+      .flag,
+      .name {
+        padding: 0.8rem;
+        display: flex;
+      }
+
+      :last-child {
+        padding-left: 0;
       }
     }
   }

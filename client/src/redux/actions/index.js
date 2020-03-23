@@ -1,17 +1,23 @@
 export const actionTypes = {
+  SET_MODE: 'SET_MODE',
+  SET_LOCATION: 'SET_LOCATION',
   REQUEST_LOCATION_SUCCESS: 'REQUEST_LOCATION_SUCCESS',
   REQUEST_LOCATION_FAILED: 'REQUEST_LOCATION_FAILED',
-  SET_LOCATION: 'SET_LOCATION',
   REQUEST_WEATHER_SUCCESS: 'REQUEST_WEATHER_SUCCESS',
   REQUEST_WEATHER_FAILED: 'REQUEST_WEATHER_FAILED',
-  REQUEST_GEOCODiNG_SUCCESS: 'REQUEST_GEOCODiNG_SUCCESS',
-  REQUEST_GEOCODING_FAILED: 'REQUEST_GEOCODING_FAILED',
+  REQUEST_LOCATION_SUGGESTIONS_SUCCESS: 'REQUEST_LOCATION_SUGGESTIONS_SUCCESS',
+  REQUEST_LOCATION_SUGGESTIONS_FAILED: 'REQUEST_LOCATION_SUGGESTIONS_FAILED',
 }
 
 const apiBaseURL = 'http://localhost:3000'
 const locationApiEndpoint = `${apiBaseURL}/location`
 const weatherApiEndpoint = `${apiBaseURL}/weather`
 const geocodingApiEndpoint = `${apiBaseURL}/geocoding`
+
+export const setModeAction = (payload) => ({
+  type: actionTypes.SET_MODE,
+  payload,
+})
 
 export const requestLocationAction = () => async (dispatch) => {
   // Send request to get data (and handle error)
@@ -39,7 +45,7 @@ export const requestLocationSuggestionAction = (locationName) => async (
     `${geocodingApiEndpoint}?location=${locationName}`
   ).catch(() => {
     dispatch({
-      type: actionTypes.REQUEST_GEOCODING_FAILED,
+      type: actionTypes.REQUEST_LOCATION_SUGGESTIONS_FAILED,
     })
   })
 
@@ -48,7 +54,7 @@ export const requestLocationSuggestionAction = (locationName) => async (
 
   // Add data to redux store
   dispatch({
-    type: actionTypes.REQUEST_GEOCODiNG_SUCCESS,
+    type: actionTypes.REQUEST_LOCATION_SUGGESTIONS_SUCCESS,
     payload: data,
   })
 }
@@ -58,10 +64,27 @@ export const requestWeatherDataAction = (
   longitude,
   timestamp
 ) => async (dispatch) => {
+  console.log('lattitude, longitude :', typeof lattitude, typeof longitude)
+  // Set layout mode
+  dispatch({
+    type: actionTypes.SET_MODE,
+    payload: 'loading',
+  })
+
+  const url =
+    weatherApiEndpoint +
+    `?time=${Date.now()}
+  &lattitude=${
+    typeof lattitude !== 'undefined' ? encodeURIComponent(lattitude) : ''
+  }
+  &longitude=${
+    typeof longitude !== 'undefined' ? encodeURIComponent(longitude) : ''
+  }`
+
+  console.log('url :', url)
+
   // Send request to get data (and handle error)
-  const response = await fetch(
-    `${weatherApiEndpoint}?time=${Date.now()}`
-  ).catch(() => {
+  const response = await fetch(url).catch(() => {
     dispatch({
       type: actionTypes.REQUEST_WEATHER_FAILED,
     })
@@ -73,7 +96,7 @@ export const requestWeatherDataAction = (
   // Add location data to redux store
   dispatch({
     type: actionTypes.SET_LOCATION,
-    payload: data.city,
+    payload: data.location,
   })
 
   // Add weather data to redux store
@@ -83,5 +106,11 @@ export const requestWeatherDataAction = (
       daily: data.daily,
       currently: data.currently,
     },
+  })
+
+  // Set layout mode
+  dispatch({
+    type: actionTypes.SET_MODE,
+    payload: 'display',
   })
 }
