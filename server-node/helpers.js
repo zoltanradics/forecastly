@@ -13,6 +13,8 @@ export const sendHttpRequest = async (endpoint) => {
 export const getLocationList = (response) =>
   response.results.map((item) => ({
     name: item.formatted,
+    country: item.components.country,
+    city: item.components.city,
     flag: item.annotations.flag,
     lat: item.geometry.lat,
     lng: item.geometry.lng,

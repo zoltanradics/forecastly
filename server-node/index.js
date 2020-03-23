@@ -18,7 +18,7 @@ const IP_LOCATION_API_ENDPOINT = `https://ip-geolocation.whoisxmlapi.com/api/v1?
 const DARK_SKY_KEY = process.env.DARK_SKY_KEY
 const DARK_SKY_API_ENDPOINT = `https://api.darksky.net/forecast/${DARK_SKY_KEY}`
 const OPEN_CAGE_KEY = process.env.OPEN_CAGE_KEY
-const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json?q=__PLACENAME__&key=${OPEN_CAGE_KEY}`
+const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json?q=__PLACENAME__&key=${OPEN_CAGE_KEY}&limit=5`
 
 const app = express()
 app.use(cors())
