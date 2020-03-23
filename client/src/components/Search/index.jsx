@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { requestGeocodingAction } from '../../redux/actions'
+import { requestLocationSuggestionAction } from '../../redux/actions'
 
 const Search = () => {
   let timeout = null
@@ -9,7 +9,7 @@ const Search = () => {
   const inputRef = useRef()
 
   const loadSuggestions = () => {
-    dispatch(requestGeocodingAction(inputRef.current.value))
+    dispatch(requestLocationSuggestionAction(inputRef.current.value))
   }
 
   const handleOnCange = () => {

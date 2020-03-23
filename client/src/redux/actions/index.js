@@ -31,7 +31,9 @@ export const requestLocationAction = () => async (dispatch) => {
   })
 }
 
-export const requestGeocodingAction = (locationName) => async (dispatch) => {
+export const requestLocationSuggestionAction = (locationName) => async (
+  dispatch
+) => {
   // Send request to get data (and handle error)
   const response = await fetch(
     `${geocodingApiEndpoint}?location=${locationName}`
@@ -51,9 +53,11 @@ export const requestGeocodingAction = (locationName) => async (dispatch) => {
   })
 }
 
-export const requestWeatherAction = (lattitude, longitude, timestamp) => async (
-  dispatch
-) => {
+export const requestWeatherDataAction = (
+  lattitude,
+  longitude,
+  timestamp
+) => async (dispatch) => {
   // Send request to get data (and handle error)
   const response = await fetch(
     `${weatherApiEndpoint}?time=${Date.now()}`

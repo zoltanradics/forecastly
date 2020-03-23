@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CSSTransition } from 'react-transition-group'
 import classNames from 'classnames'
 
-import { requestWeatherAction } from './redux/actions'
+import { requestWeatherDataAction } from './redux/actions'
 
 import { getDateString } from './utils'
 import Search from './components/Search'
