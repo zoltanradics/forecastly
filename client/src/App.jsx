@@ -18,14 +18,8 @@ const App = () => {
     weather: { daily, currently, weatherLoaded },
   } = useSelector((store) => store)
 
-  const mainClass = currently
-    ? classNames('', {
-        sunny: currently.icon === 'clear-day',
-      })
-    : ''
-
   return (
-    <main className={mainClass}>
+    <main className={currently ? currently.icon : ''}>
       <div className="box">
         <CSSTransition in={weatherLoaded} timeout={0} classNames="box--inner">
           <div className="box--inner">
