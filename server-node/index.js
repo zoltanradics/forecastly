@@ -47,15 +47,25 @@ app.get('/location', async (req, res) => {
   res.json({ ip, location })
 })
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 app.get('/geocoding', async (req, res) => {
   // Get query parameters
   let { location } = req.query
+
+  // Handle if required query parameter is missing
+  if (typeof location === 'undefined') {
+    return res.status(400).json({
+      message: 'Something went wrong: Location parameter is missing.',
+    })
+  }
 
   // Request location data by location name
   const locationApiEndpoint = getOpenCageApiEndpoint(
     OPEN_CAGE_API_ENDPOINT,
     location
   )
+
   const response = await sendHttpRequest(locationApiEndpoint).catch((error) => {
     res.status(500).json({
       message:
