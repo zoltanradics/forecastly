@@ -76,12 +76,21 @@ app.get('/geocoding', async (req, res) => {
   res.json(getLocationList(response))
 })
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 app.get('/weather', async (req, res) => {
   // Get query parameters
   let { lattitude, longitude, timestamp } = req.query
   let locationData
 
-  // Get user's ip address
+  // Handle if required query parameter is missing
+  if (typeof location === 'undefined') {
+    return res.status(400).json({
+      message: 'Something went wrong: Timestamp parameter is missing.',
+    })
+  }
+
+  // Get user's IP address
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
@@ -95,7 +104,7 @@ app.get('/weather', async (req, res) => {
 
     const { location } = await sendHttpRequest(locationApiEndpoint).catch(
       (error) => {
-        res.status(500).json({
+        return res.status(500).json({
           message: `Something went wrong: Requesting user's location!`,
         })
       }
