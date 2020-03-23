@@ -25,7 +25,7 @@ export const getLocationApiEndpoint = (ipLocationApiEndpoint, ip) =>
   `${ipLocationApiEndpoint}&ipAddress=${ip}`
 
 // Construct Dark Sky API endpoint URL
-export const getDarkSkyApiEndpoint = (darkSkyApiEndpoint, lat, lng, time) =>
+export const getDarkSkyApiEndpoint = (darkSkyApiEndpoint, time, lat, lng) =>
   `${darkSkyApiEndpoint}/${lat},${lng}` +
   (typeof time !== 'undefined' ? `,${time}` : ``) +
   `?exclude=minutely,hourly,alerts,flags&units=si`
