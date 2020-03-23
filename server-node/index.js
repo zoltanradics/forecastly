@@ -85,13 +85,6 @@ app.get('/weather', async (req, res) => {
   let { lattitude, longitude, timestamp } = req.query
   let locationData
 
-  // Handle if required query parameter is missing
-  if (typeof location === 'undefined') {
-    return res.status(400).json({
-      message: 'Something went wrong: Timestamp parameter is missing.',
-    })
-  }
-
   // Get user's IP address
   const ip = isDev
     ? testIpAddress
@@ -108,7 +101,7 @@ app.get('/weather', async (req, res) => {
     // Request location by ip address if lat and lng query params are defined
     const { location } = await sendHttpRequest(locationApiEndpoint).catch(
       (error) => {
-        return res.status(500).json({
+        res.status(500).json({
           message: `Something went wrong: Requesting user's location!`,
         })
       }
@@ -122,9 +115,9 @@ app.get('/weather', async (req, res) => {
   // Request user's weather by location
   const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
     DARK_SKY_API_ENDPOINT,
+    timestamp,
     lattitude,
-    longitude,
-    timestamp
+    longitude
   )
 
   const data = await sendHttpRequest(darkSkyApiEndpoint).catch((error) => {
