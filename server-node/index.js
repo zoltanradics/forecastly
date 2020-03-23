@@ -25,8 +25,6 @@ app.use(cors())
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// ROUTES
-
 app.get('/location', async (req, res) => {
   const ip = isDev
     ? testIpAddress
@@ -37,6 +35,7 @@ app.get('/location', async (req, res) => {
     IP_LOCATION_API_ENDPOINT,
     ip
   )
+
   const { location } = await sendHttpRequest(locationApiEndpoint).catch(
     (error) => {
       res.status(500).json({
