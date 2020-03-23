@@ -30,12 +30,13 @@ app.get('/location', async (req, res) => {
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
-  // Request users's location by IP address
+  // Construct URL
   const locationApiEndpoint = getLocationApiEndpoint(
     IP_LOCATION_API_ENDPOINT,
     ip
   )
 
+  // Request users's location by IP address
   const { location } = await sendHttpRequest(locationApiEndpoint).catch(
     (error) => {
       res.status(500).json({
@@ -60,12 +61,13 @@ app.get('/geocoding', async (req, res) => {
     })
   }
 
-  // Request location data by location name
+  // Construct URL
   const locationApiEndpoint = getOpenCageApiEndpoint(
     OPEN_CAGE_API_ENDPOINT,
     location
   )
 
+  // Request location data by location name
   const response = await sendHttpRequest(locationApiEndpoint).catch((error) => {
     res.status(500).json({
       message:
@@ -95,13 +97,15 @@ app.get('/weather', async (req, res) => {
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
-  // Request location by ip address if lat and lng query params are defined
+  // Check if query parameters are passed
   if (typeof lattitude === 'undefined' && typeof longitude === 'undefined') {
+    // Construct URL
     const locationApiEndpoint = getLocationApiEndpoint(
       IP_LOCATION_API_ENDPOINT,
       ip
     )
 
+    // Request location by ip address if lat and lng query params are defined
     const { location } = await sendHttpRequest(locationApiEndpoint).catch(
       (error) => {
         return res.status(500).json({
