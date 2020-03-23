@@ -59,29 +59,20 @@ export const requestLocationSuggestionAction = (locationName) => async (
   })
 }
 
-export const requestWeatherDataAction = (
-  lattitude,
-  longitude,
-  timestamp
-) => async (dispatch) => {
-  console.log('lattitude, longitude :', typeof lattitude, typeof longitude)
+export const requestWeatherDataAction = (lattitude, longitude) => async (
+  dispatch
+) => {
   // Set layout mode
   dispatch({
     type: actionTypes.SET_MODE,
     payload: 'loading',
   })
 
-  const url =
-    weatherApiEndpoint +
-    `?time=${Date.now()}
-  &lattitude=${
-    typeof lattitude !== 'undefined' ? encodeURIComponent(lattitude) : ''
-  }
-  &longitude=${
-    typeof longitude !== 'undefined' ? encodeURIComponent(longitude) : ''
+  const url = `${weatherApiEndpoint}${
+    typeof lattitude !== 'undefined' && typeof longitude !== 'undefined'
+      ? `?lattitude=${lattitude}&longitude=${longitude}`
+      : ''
   }`
-
-  console.log('url :', url)
 
   // Send request to get data (and handle error)
   const response = await fetch(url).catch(() => {
