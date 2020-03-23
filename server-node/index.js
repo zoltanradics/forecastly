@@ -70,7 +70,7 @@ app.get('/geocoding', async (req, res) => {
 app.get('/weather', async (req, res) => {
   // Get query parameters
   let { lattitude, longitude, timestamp } = req.query
-  let cityName
+  let locationData
 
   // Get user's ip address
   const ip = isDev
@@ -84,17 +84,17 @@ app.get('/weather', async (req, res) => {
       ip
     )
 
-    const {
-      location: { lat, lng, city },
-    } = await sendHttpRequest(locationApiEndpoint).catch((error) => {
-      res.status(500).json({
-        message: `Something went wrong: Requesting user's location!`,
-      })
-    })
+    const { location } = await sendHttpRequest(locationApiEndpoint).catch(
+      (error) => {
+        res.status(500).json({
+          message: `Something went wrong: Requesting user's location!`,
+        })
+      }
+    )
 
-    lattitude = lat
-    longitude = lng
-    cityName = city
+    lattitude = location.lat
+    longitude = location.lng
+    locationData = location
   }
 
   // Request user's weather by location
@@ -111,7 +111,7 @@ app.get('/weather', async (req, res) => {
       .json({ message: `Something went wrong: Requesting user's weather!` })
   })
 
-  res.json(Object.assign(data, { city: cityName }))
+  res.json(Object.assign(data, { location: locationData }))
 })
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
