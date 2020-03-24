@@ -45,7 +45,7 @@ app.get('/location-by-ip', async (req, res) => {
     })
   })
 
-  res.json({ name: `${country}, ${city}`, lat, lng })
+  res.json({ name: `${country}, ${city}`, lattitude: lat, longitude: lng })
 })
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
