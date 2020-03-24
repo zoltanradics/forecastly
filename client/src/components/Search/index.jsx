@@ -38,8 +38,8 @@ const Search = () => {
     <div className="search">
       <h1>Welcome!</h1>
       <div className="search__hint">
-        Type the name of the location, or click the compass icon and let us
-        guess where you are!
+        Type the name of the location, or click the "Locate Me!" button and let
+        us guess where you are!
       </div>
       <form className="search__form">
         <div className="search__form__input-group">
