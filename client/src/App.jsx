@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CSSTransition } from 'react-transition-group'
+// import { CSSTransition } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { requestWeatherDataAction } from './redux/actions'
@@ -21,19 +21,13 @@ const App = () => {
   return (
     <main className={currently ? currently.icon : ''}>
       <div className="box">
-        <CSSTransition in={weatherLoaded} timeout={0} classNames="box--inner">
-          <div className="box--inner">
-            {mode === 'loading' && <Loading />}
-            {mode === 'search' && <Search />}
-            {mode === 'display' && (
-              <Display
-                daily={daily}
-                currently={currently}
-                location={location}
-              />
-            )}
-          </div>
-        </CSSTransition>
+        <div className={`box__inner box__inner--${mode}`}>
+          {mode === 'loading' && <Loading />}
+          {mode === 'search' && <Search />}
+          {mode === 'display' && (
+            <Display daily={daily} currently={currently} location={location} />
+          )}
+        </div>
       </div>
     </main>
   )

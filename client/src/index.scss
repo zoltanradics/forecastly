@@ -43,26 +43,18 @@ main {
   width: 20rem;
   box-sizing: border-box;
 
-  &--inner {
+  &__inner {
+    height: 14rem;
     padding: 1.2rem;
     box-sizing: border-box;
-    overflow: hidden;
     background: rgb(255, 255, 255);
     border-radius: 0.8rem;
-    // box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.15);
 
-    &-enter-done {
-      height: 34rem;
-      transition: height 240ms ease-in-out;
+    &--search {
+      height: 14rem;
     }
 
-    &__align-middle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__full-height {
+    &--display {
       height: 34rem;
     }
 
@@ -70,6 +62,8 @@ main {
       height: 100%;
       position: relative;
     }
+
+    transition: height 240ms ease-out;
   }
 }
 
@@ -238,7 +232,7 @@ main {
   }
 
   &__form {
-    // border: 1px solid red;
+    position: relative;
 
     &__input-group {
       display: flex;
