@@ -9,7 +9,10 @@ export const actionTypes = {
   REQUEST_LOCATION_SUGGESTIONS_FAILED: 'REQUEST_LOCATION_SUGGESTIONS_FAILED',
 }
 
-const apiBaseURL = 'http://localhost:3000'
+const apiBaseURL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3000'
+    : 'http://forecastly.zoltanradics.com/api'
 const locationApiEndpoint = `${apiBaseURL}/location-by-ip`
 const weatherApiEndpoint = `${apiBaseURL}/weather`
 const geocodingApiEndpoint = `${apiBaseURL}/location-by-name`
