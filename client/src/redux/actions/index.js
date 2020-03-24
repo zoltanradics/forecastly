@@ -10,8 +10,8 @@ export const actionTypes = {
 }
 
 const apiBaseURL = 'http://localhost:3000'
-const locationApiEndpoint = `${apiBaseURL}/location`
-const weatherApiEndpoint = `${apiBaseURL}/weather`
+const locationApiEndpoint = `${apiBaseURL}/location-by-ip`
+const weatherApiEndpoint = `${apiBaseURL}/location-by-name`
 const geocodingApiEndpoint = `${apiBaseURL}/geocoding`
 
 export const setModeAction = (payload) => ({
