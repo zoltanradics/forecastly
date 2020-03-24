@@ -3,6 +3,8 @@ $text-color-primary: #444;
 $background-default: #eee;
 $background-clear-day: #fbb632;
 $background-clear-night: #0c154a;
+$background-cloudy: #cbdbd7;
+$background-rain: #d7d7d9;
 
 html,
 body {
@@ -27,15 +29,27 @@ main {
   align-items: center;
   justify-content: center;
   background-color: $background-default;
+  transition: background-color 2s ease-out;
 
-  &.clear-day {
+  &.clear-day,
+  &.partly-cloudy-day {
     background-color: $background-clear-day;
-    transition: background-color 2s ease-out;
   }
 
-  &.clear-night {
+  &.clear-night,
+  &.partly-cloudy-night {
     background-color: $background-clear-night;
-    transition: background-color 2s ease-out;
+  }
+
+  &.cloudy,
+  &.snow,
+  &.wind,
+  &.sleet {
+    background: $background-cloudy;
+  }
+
+  &.rain {
+    background: $background-rain;
   }
 }
 
