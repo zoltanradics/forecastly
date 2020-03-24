@@ -68,6 +68,15 @@ export const requestWeatherDataAction = (lattitude, longitude, name) => async (
     payload: 'loading',
   })
 
+  dispatch({
+    type: actionTypes.REQUEST_LOCATION_SUCCESS,
+    payload: {
+      lattitude,
+      longitude,
+      name,
+    },
+  })
+
   const url = `${weatherApiEndpoint}${
     typeof lattitude !== 'undefined' && typeof longitude !== 'undefined'
       ? `?lattitude=${lattitude}&longitude=${longitude}`
@@ -83,16 +92,6 @@ export const requestWeatherDataAction = (lattitude, longitude, name) => async (
 
   // Get data from response
   const data = await response.json()
-
-  // Add location data to redux store
-  dispatch({
-    type: actionTypes.SET_LOCATION,
-    payload: {
-      lattitude,
-      longitude,
-      name,
-    },
-  })
 
   // Add weather data to redux store
   dispatch({
