@@ -1,4 +1,3 @@
 {
-  "presets": ["es2015"],
-  "test": ["jest"]
+  "presets": ["es2015"]
 }
