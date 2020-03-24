@@ -24,12 +24,12 @@ const Search = () => {
     timeout = setTimeout(loadSuggestions, 300)
   }
 
-  const locateMe = (e) => {
+  const showLocationSuggestions = (e) => {
     e.preventDefault()
     dispatch(requestLocationAction())
   }
 
-  const selectlocation = (item) => {
+  const selectlocationSuggestion = (item) => {
     const { lat, lng, name } = item
     dispatch(requestWeatherDataAction(lat, lng, name))
   }
@@ -49,13 +49,13 @@ const Search = () => {
             onChange={handleOnCange}
             ref={inputRef}
           />
-          <button onClick={locateMe}>LOCATE ME!</button>
+          <button onClick={showLocationSuggestions}>LOCATE ME!</button>
         </div>
       </form>
       {suggestions && (
         <ul className="search__suggestions">
           {suggestions.map((item, index) => (
-            <li index={index} onClick={() => selectlocation(item)}>
+            <li index={index} onClick={() => selectlocationSuggestion(item)}>
               <div className="flag">{item.flag}</div>
               <div className="name">{item.name}</div>
             </li>
