@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import fetch from 'node-fetch'
+import { query, validationResult } from 'express-validator'
 
 import {
   sendHttpRequest,
@@ -50,92 +50,90 @@ app.get('/location-by-ip', async (req, res) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-app.get('/location-by-name', async (req, res) => {
-  // Get query parameters
-  let { location } = req.query
+app.get(
+  '/location-by-name',
+  [
+    query('location')
+      .not()
+      .isEmpty()
+      .withMessage('Query param "location" is mandatory!'),
+  ],
+  async (req, res) => {
+    // Return error is route validation fails
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() })
+    }
 
-  // Handle if required query parameter is missing
-  if (typeof location === 'undefined') {
-    return res.status(400).json({
-      message: 'Something went wrong: Location parameter is missing.',
-    })
+    // Get query parameters
+    const { location } = req.query
+
+    // Construct URL
+    const locationApiEndpoint = getOpenCageApiEndpoint(
+      OPEN_CAGE_API_ENDPOINT,
+      location
+    )
+
+    // Request location data by location name
+    const response = await sendHttpRequest(locationApiEndpoint).catch(
+      (error) => {
+        res.status(500).json({
+          message:
+            'Something went wrong: Requesting location data by location name.',
+        })
+      }
+    )
+
+    res.json(getLocationList(response))
   }
-
-  // Construct URL
-  const locationApiEndpoint = getOpenCageApiEndpoint(
-    OPEN_CAGE_API_ENDPOINT,
-    location
-  )
-
-  // Request location data by location name
-  const response = await sendHttpRequest(locationApiEndpoint).catch((error) => {
-    res.status(500).json({
-      message:
-        'Something went wrong: Requesting location data by location name.',
-    })
-  })
-
-  res.json(getLocationList(response))
-})
+)
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-app.get('/weather', async (req, res) => {
-  // Get query parameters
-  let { lattitude, longitude, timestamp } = req.query
-  let cityName
+app.get(
+  '/weather',
+  [
+    query('lattitude')
+      .not()
+      .isEmpty()
+      .withMessage('Query param "lattitude" is mandatory!'),
+    query('longitude')
+      .not()
+      .isEmpty()
+      .withMessage('Query param "longitude" is mandatory!'),
+  ],
+  async (req, res) => {
+    // Return error is route validation fails
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() })
+    }
 
-  // Get user's IP address
-  const ip = isDev
-    ? testIpAddress
-    : req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    // Get query parameters
+    let { lattitude, longitude, timestamp } = req.query
 
-  // Check if query parameters are passed
-  if (typeof lattitude === 'undefined' && typeof longitude === 'undefined') {
-    // Construct URL
-    const locationApiEndpoint = getLocationApiEndpoint(
-      IP_LOCATION_API_ENDPOINT,
-      ip
+    // Get user's IP address
+    const ip = isDev
+      ? testIpAddress
+      : req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+    // Request user's weather by location
+    const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
+      DARK_SKY_API_ENDPOINT,
+      lattitude,
+      longitude,
+      timestamp
     )
 
-    // Request location by ip address if lat and lng query params are defined
-    const {
-      location: { city, lat, lng },
-    } = await sendHttpRequest(locationApiEndpoint).catch((error) => {
-      res.status(500).json({
-        message: `Something went wrong: Requesting user's location!`,
-      })
+    const data = await sendHttpRequest(darkSkyApiEndpoint).catch((error) => {
+      res
+        .status(500)
+        .json({ message: `Something went wrong: Requesting user's weather!` })
     })
 
-    lattitude = lat
-    longitude = lng
-    cityName = city
+    res.json(data)
   }
-
-  // Request user's weather by location
-  const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
-    DARK_SKY_API_ENDPOINT,
-    lattitude,
-    longitude,
-    timestamp
-  )
-
-  const data = await sendHttpRequest(darkSkyApiEndpoint).catch((error) => {
-    res
-      .status(500)
-      .json({ message: `Something went wrong: Requesting user's weather!` })
-  })
-
-  res.json(
-    Object.assign(data, {
-      location: {
-        lat: lattitude,
-        lng: longitude,
-        city: cityName,
-      },
-    })
-  )
-})
+)
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
