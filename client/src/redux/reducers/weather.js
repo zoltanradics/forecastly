@@ -11,7 +11,13 @@ const reducer = (state = { daily: null, currently: null }, action) => {
         ...state,
         daily: getWeatherData(payload.daily.data),
         currently: payload.currently,
-        weatherLoaded: isWeatherDataLoaded(payload),
+      }
+    case actionTypes.SET_MODE:
+      if (payload === 'search') {
+        return {
+          daily: null,
+          currently: null,
+        }
       }
   }
 
