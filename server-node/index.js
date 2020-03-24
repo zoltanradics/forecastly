@@ -38,14 +38,14 @@ app.get('/location-by-ip', async (req, res) => {
 
   // Request users's location by IP address
   const {
-    location: { city, lat, lng },
+    location: { country, city, lat, lng },
   } = await sendHttpRequest(locationApiEndpoint).catch((error) => {
     res.status(500).json({
       message: 'Something went wrong: Requesting location by ip address',
     })
   })
 
-  res.json({ city, lat, lng })
+  res.json({ name: `${country}, ${city}`, lat, lng })
 })
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
