@@ -36,7 +36,7 @@ app.get('/location-by-ip', async (req, res) => {
     ip
   )
 
-  // Request users's location by IP address
+  // Send HTTP request
   const {
     location: { country, city, lat, lng },
   } = await sendHttpRequest(locationApiEndpoint).catch((error) => {
@@ -74,7 +74,7 @@ app.get(
       location
     )
 
-    // Request location data by location name
+    // Send HTTP request
     const response = await sendHttpRequest(locationApiEndpoint).catch(
       (error) => {
         res.status(500).json({
@@ -117,7 +117,7 @@ app.get(
       ? testIpAddress
       : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
-    // Request user's weather by location
+    // Construct URL
     const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
       DARK_SKY_API_ENDPOINT,
       lattitude,
@@ -125,6 +125,7 @@ app.get(
       timestamp
     )
 
+    // Send HTTP request
     const data = await sendHttpRequest(darkSkyApiEndpoint).catch((error) => {
       res
         .status(500)
