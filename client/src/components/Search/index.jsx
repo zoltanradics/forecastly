@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
+  requestLocationAction,
   requestLocationSuggestionAction,
   requestWeatherDataAction,
 } from '../../redux/actions'
@@ -25,7 +26,7 @@ const Search = () => {
 
   const locateMe = (e) => {
     e.preventDefault()
-    dispatch(requestWeatherDataAction())
+    dispatch(requestLocationAction())
   }
 
   const selectlocation = (item) => {

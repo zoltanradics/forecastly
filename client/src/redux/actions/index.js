@@ -28,13 +28,10 @@ export const requestLocationAction = () => async (dispatch) => {
   })
 
   // Get data from response
-  const { location } = await response.json()
+  const { lattitude, longitude, name } = await response.json()
 
-  // Add data to redux store
-  dispatch({
-    type: actionTypes.REQUEST_LOCATION_SUCCESS,
-    payload: location,
-  })
+  // Request weather data
+  dispatch(requestWeatherDataAction(lattitude, longitude, name))
 }
 
 export const requestLocationSuggestionAction = (locationName) => async (
