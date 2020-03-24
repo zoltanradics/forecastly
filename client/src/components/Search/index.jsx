@@ -51,17 +51,17 @@ const Search = () => {
           />
           <button onClick={showLocationSuggestions}>LOCATE ME!</button>
         </div>
+        {suggestions && suggestions.length > 0 && (
+          <ul className="search__suggestions">
+            {suggestions.map((item, index) => (
+              <li index={index} onClick={() => selectlocationSuggestion(item)}>
+                <div className="flag">{item.flag}</div>
+                <div className="name">{item.name}</div>
+              </li>
+            ))}
+          </ul>
+        )}
       </form>
-      {suggestions && suggestions.length > 0 && (
-        <ul className="search__suggestions">
-          {suggestions.map((item, index) => (
-            <li index={index} onClick={() => selectlocationSuggestion(item)}>
-              <div className="flag">{item.flag}</div>
-              <div className="name">{item.name}</div>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   )
 }
