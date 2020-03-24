@@ -8,6 +8,10 @@ import { round } from '../../utils'
 const Currently = ({ location, currently }) => {
   const dispatch = useDispatch()
   const iconString = currently.icon.toUpperCase().replace(/-/g, '_')
+  const name =
+    location.name.length >= 34
+      ? `${location.name.substring(0, 34)}...`
+      : location.name
 
   const editLocation = () => {
     dispatch(setModeAction('search'))
@@ -16,7 +20,7 @@ const Currently = ({ location, currently }) => {
   return (
     <div className="currently">
       <div className="col location">
-        <div className="label">{location.name}</div>
+        <div className="label">{name}</div>
         <div>
           <button className="edit-button" onClick={editLocation}>
             EDIT LOCATION
