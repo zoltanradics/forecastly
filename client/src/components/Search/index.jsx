@@ -29,8 +29,8 @@ const Search = () => {
   }
 
   const selectlocation = (item) => {
-    const { lat, lng } = item
-    dispatch(requestWeatherDataAction(lat, lng))
+    const { lat, lng, name } = item
+    dispatch(requestWeatherDataAction(lat, lng, name))
   }
 
   return (

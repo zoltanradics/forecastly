@@ -7,7 +7,7 @@ const Currently = ({ location, currently }) => {
   const iconString = currently.icon.toUpperCase().replace(/-/g, '_')
   return (
     <div className="currently">
-      <div className="col location">{location.city}</div>
+      <div className="col location">{location.name}</div>
       <div className="col apparent">
         <div className="summary">{currently.summary}</div>
         <div className="temperature">

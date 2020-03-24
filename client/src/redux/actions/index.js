@@ -59,7 +59,7 @@ export const requestLocationSuggestionAction = (locationName) => async (
   })
 }
 
-export const requestWeatherDataAction = (lattitude, longitude) => async (
+export const requestWeatherDataAction = (lattitude, longitude, name) => async (
   dispatch
 ) => {
   // Set layout mode
@@ -87,7 +87,11 @@ export const requestWeatherDataAction = (lattitude, longitude) => async (
   // Add location data to redux store
   dispatch({
     type: actionTypes.SET_LOCATION,
-    payload: data.location,
+    payload: {
+      lattitude,
+      longitude,
+      name,
+    },
   })
 
   // Add weather data to redux store
