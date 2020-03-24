@@ -11,12 +11,14 @@ export const sendHttpRequest = async (endpoint) => {
 }
 
 export const getLocationList = (response) =>
-  response.results.map((item) => ({
-    name: item.formatted,
-    flag: item.annotations.flag,
-    lat: item.geometry.lat,
-    lng: item.geometry.lng,
-  }))
+  response && response.results
+    ? response.results.map((item) => ({
+        name: item.formatted,
+        flag: item.annotations.flag,
+        lat: item.geometry.lat,
+        lng: item.geometry.lng,
+      }))
+    : []
 
 // Construct location APi endpoint URL
 export const getLocationApiEndpoint = (ipLocationApiEndpoint, ip) =>
