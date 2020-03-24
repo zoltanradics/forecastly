@@ -25,7 +25,7 @@ app.use(cors())
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-app.get('/location', async (req, res) => {
+app.get('/location-by-ip', async (req, res) => {
   const ip = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
@@ -50,7 +50,7 @@ app.get('/location', async (req, res) => {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-app.get('/geocoding', async (req, res) => {
+app.get('/location-by-name', async (req, res) => {
   // Get query parameters
   let { location } = req.query
 
