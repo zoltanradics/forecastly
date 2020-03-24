@@ -6,11 +6,7 @@ const reducer = (state = {}, action) => {
     case actionTypes.REQUEST_LOCATION_SUCCESS:
       return {
         ...state,
-        ...payload,
-      }
-    case actionTypes.SET_LOCATION:
-      return {
-        ...state,
+        suggestions: [],
         ...payload,
       }
     case actionTypes.REQUEST_LOCATION_SUGGESTIONS_SUCCESS:
