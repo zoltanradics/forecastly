@@ -115,9 +115,9 @@ app.get('/weather', async (req, res) => {
   // Request user's weather by location
   const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
     DARK_SKY_API_ENDPOINT,
-    timestamp,
     lattitude,
-    longitude
+    longitude,
+    timestamp
   )
 
   const data = await sendHttpRequest(darkSkyApiEndpoint).catch((error) => {
