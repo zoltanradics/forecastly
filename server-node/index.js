@@ -1,4 +1,4 @@
-import { https, config } from 'firebase-functions'
+import * as functions from 'firebase-functions'
 import admin from 'firebase-admin'
 import express from 'express'
 import cors from 'cors'
@@ -13,11 +13,13 @@ import {
 const isDev = process.env.NODE_ENV !== 'production'
 const PORT = isDev ? 3000 : 80
 const testIpAddress = '77.57.123.202' // This IP address is for Zurich / Switzerland
-const IP_LOCATION_KEY = process.env.IP_LOCATION_KEY || config().key.ip_location
+const IP_LOCATION_KEY =
+  process.env.IP_LOCATION_KEY || functions.config().key.ip_location
 const IP_LOCATION_API_ENDPOINT = `https://ip-geolocation.whoisxmlapi.com/api/v1`
-const DARK_SKY_KEY = process.env.DARK_SKY_KEY || config().key.dark_sky
+const DARK_SKY_KEY = process.env.DARK_SKY_KEY || functions.config().key.dark_sky
 const DARK_SKY_API_ENDPOINT = `https://api.darksky.net/forecast/${DARK_SKY_KEY}`
-const OPEN_CAGE_KEY = process.env.OPEN_CAGE_KEY || config().key.open_cage
+const OPEN_CAGE_KEY =
+  process.env.OPEN_CAGE_KEY || functions.config().key.open_cage
 const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json`
 
 // Init Firebase admin
@@ -151,4 +153,4 @@ app.get(
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Export Express app to Firebase
-export const api = https.onRequest(app)
+export const api = functions.region('europe-west1').https.onRequest(app)
