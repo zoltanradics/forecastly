@@ -1,6 +1,6 @@
 import { actionTypes } from '../actions'
 
-import { getWeatherData, isWeatherDataLoaded } from '../../utils'
+import { getWeatherData } from '../../utils'
 
 const reducer = (state = { daily: null, currently: null }, action) => {
   const { type, payload } = action
