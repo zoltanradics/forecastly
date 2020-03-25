@@ -138,7 +138,7 @@ main {
       height: 100%;
 
       .current-temperature {
-        font-size: 6rem;
+        font-size: rem(15);
         font-weight: $font-weight-bold;
         text-align: center;
       }
@@ -152,7 +152,7 @@ main {
       }
 
       .label {
-        font-size: 1.2rem;
+        font-size: rem(3);
         font-weight: $font-weight-light;
       }
     }
@@ -171,22 +171,22 @@ main {
 
     &.location {
       text-align: left;
-      font-size: 1.4rem;
+      font-size: rem(4);
       font-weight: $font-weight-bold;
       letter-spacing: -0.04rem;
 
       .edit-button {
-        padding: 0.2rem 0.4rem;
-        color: $text-inverted;
-        font-size: 0.6rem;
+        padding: rem(1);
+        font-size: rem(1.5);
+        font-weight: $font-weight-base;
         border: none;
-        background-color: $background-black;
-        border-radius: 0.4rem;
+        background-color: $background-default;
+        border-radius: rem(1);
       }
     }
 
     &.icon {
-      padding-right: 0.4rem;
+      padding-right: rem(1);
     }
   }
 
@@ -200,7 +200,7 @@ main {
     .temperature {
       display: flex;
       width: 100%;
-      font-size: 2.8rem;
+      font-size: rem(7);
 
       .label {
         text-align: right;
@@ -238,7 +238,7 @@ main {
     padding: rem(1) rem(2);
     margin-bottom: rem(1);
     background-color: $background-almost-white;
-    border-radius: 0.4rem;
+    border-radius: rem(1);
 
     &.today {
       background-color: $background-default;
@@ -280,8 +280,8 @@ main {
   }
 
   &__hint {
-    margin-bottom: rem(2);
-    font-size: 0.8rem;
+    margin-bottom: rem(4);
+    font-size: rem(2);
     font-weight: $font-weight-bold;
   }
 
@@ -297,10 +297,10 @@ main {
         padding: rem(1);
         width: 100%;
         outline: none;
-        font-size: 1.4rem;
+        font-size: rem(3);
         border: 1px solid $border-light-grey;
-        border-top-left-radius: 0.4rem;
-        border-bottom-left-radius: 0.4rem;
+        border-top-left-radius: rem(1);
+        border-bottom-left-radius: rem(1);
         background-color: $background-white;
 
         &::placeholder {
@@ -315,8 +315,8 @@ main {
         font-weight: $font-weight-bold;
         border: none;
         background-color: $border-light-grey;
-        border-top-right-radius: 0.4rem;
-        border-bottom-right-radius: 0.4rem;
+        border-top-right-radius: rem(1);
+        border-bottom-right-radius: rem(1);
       }
     }
   }
@@ -328,7 +328,7 @@ main {
     margin-top: rem(1);
     padding: 0;
     list-style-type: none;
-    border-radius: 0.4rem;
+    border-radius: rem(1);
     border: 1px solid $border-light-grey;
     background-color: $background-white;
 
