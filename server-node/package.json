@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules, --copy-files",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && firebase emulators:start --only functions"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,9 @@
     "server",
     "led"
   ],
+  "engines": {
+    "node": "10"
+  },
   "author": "Zoltan Radics",
   "license": "ISC",
   "homepage": "https://git@bitbucket.org:zoltanradics/zoltanradics-madewithlove-assignment-forecastly.git#readme",
@@ -24,6 +27,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
+    "firebase-admin": "^8.10.0",
+    "firebase-functions": "^3.5.0",
     "node-fetch": "^2.6.0",
     "public-ip": "^4.0.0"
   },

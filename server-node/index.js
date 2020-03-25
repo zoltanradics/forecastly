@@ -1,3 +1,5 @@
+import { https, config } from 'firebase-functions'
+import admin from 'firebase-admin'
 import express from 'express'
 import cors from 'cors'
 import { query, validationResult } from 'express-validator'
@@ -13,15 +15,31 @@ import {
 const isDev = process.env.NODE_ENV !== 'production'
 const PORT = isDev ? 3000 : 80
 const testIpAddress = '77.57.123.202' // This IP address is for Zurich / Switzerland
-const IP_LOCATION_KEY = process.env.IP_LOCATION_KEY
+const IP_LOCATION_KEY = process.env.IP_LOCATION_KEY || config().key.ip_location
 const IP_LOCATION_API_ENDPOINT = `https://ip-geolocation.whoisxmlapi.com/api/v1?apiKey=${IP_LOCATION_KEY}`
-const DARK_SKY_KEY = process.env.DARK_SKY_KEY
+const DARK_SKY_KEY = process.env.DARK_SKY_KEY || config().key.dark_sky
 const DARK_SKY_API_ENDPOINT = `https://api.darksky.net/forecast/${DARK_SKY_KEY}`
-const OPEN_CAGE_KEY = process.env.OPEN_CAGE_KEY
+const OPEN_CAGE_KEY = process.env.OPEN_CAGE_KEY || config().key.open_cage
 const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json?q=__PLACENAME__&key=${OPEN_CAGE_KEY}&limit=5`
+
+// Init Firebase admin
+admin.initializeApp()
 
 const app = express()
 app.use(cors())
+
+// Check if required API keys are defined
+app.use((req, res, next) => {
+  if (typeof IP_LOCATION_KEY === 'undefined') {
+    res.status(500).json({ message: 'IP_LOCATION_KEY is undefined!' })
+  } else if (typeof DARK_SKY_KEY === 'undefined') {
+    res.status(500).json({ message: 'DARK_SKY_KEY is undefined!' })
+  } else if (typeof OPEN_CAGE_KEY === 'undefined') {
+    res.status(500).json({ message: 'OPEN_CAGE_KEY is undefined!' })
+  } else {
+    next()
+  }
+})
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -138,14 +156,4 @@ app.get(
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// Check if mandatory keys are defined
-if (typeof IP_LOCATION_KEY === 'undefined') {
-  console.error(new Date(), 'IP_LOCATION_KEY is undefined!')
-} else if (typeof DARK_SKY_KEY === 'undefined') {
-  console.error(new Date(), 'DARK_SKY_KEY is undefined!')
-} else {
-  app.listen(
-    PORT,
-    console.log(new Date(), `Express is running on port: ${PORT}.`)
-  )
-}
+export const api = https.onRequest(app)

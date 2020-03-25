@@ -11,8 +11,8 @@ export const actionTypes = {
 
 const apiBaseURL =
   window.location.hostname === 'localhost'
-    ? 'http://localhost:3000'
-    : 'http://forecastly.zoltanradics.com/api'
+    ? 'http://localhost:5001/forecastly-46d2c/us-central1/mainApi'
+    : 'https://us-central1-forecastly-46d2c.cloudfunctions.net/api'
 const locationApiEndpoint = `${apiBaseURL}/location-by-ip`
 const weatherApiEndpoint = `${apiBaseURL}/weather`
 const geocodingApiEndpoint = `${apiBaseURL}/location-by-name`

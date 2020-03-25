@@ -1,2 +1,5 @@
 node_modules/
-client/public/**
+public
+*.log
+.firebase
+.runtimeconfig.json
