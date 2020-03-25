@@ -1,6 +1,6 @@
 import { actionTypes } from '../actions'
 
-import { getWeatherData } from '../../utils'
+import { transformWeatherData } from '../../utils'
 
 const reducer = (state = { daily: null, currently: null }, action) => {
   const { type, payload } = action
@@ -9,7 +9,7 @@ const reducer = (state = { daily: null, currently: null }, action) => {
     case actionTypes.REQUEST_WEATHER_SUCCESS:
       return {
         ...state,
-        daily: getWeatherData(payload.daily.data),
+        daily: transformWeatherData(payload.daily),
         currently: payload.currently,
       }
     case actionTypes.SET_MODE:

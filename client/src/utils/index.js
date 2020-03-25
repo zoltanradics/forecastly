@@ -19,7 +19,7 @@ export const getDateString = (date) => date.toISOString().split('T')[0]
 export const getDayAbbrev = (date) => dayAbbreviations[date.getUTCDay()] || null
 
 // Data transformation for weater data
-export const getWeatherData = (data) =>
+export const transformWeatherData = (data) =>
   data.reduce((acc, item) => {
     // Create string from date
     const dateString = getDateString(new Date(item.time * 1000))
