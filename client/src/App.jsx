@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { CSSTransition } from 'react-transition-group'
 import classNames from 'classnames'
 
 import { requestWeatherDataAction } from './redux/actions'
@@ -15,7 +14,7 @@ const App = () => {
   const {
     layout: { mode },
     location,
-    weather: { daily, currently, weatherLoaded },
+    weather: { daily, currently },
   } = useSelector((store) => store)
 
   return (
