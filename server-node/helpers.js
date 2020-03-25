@@ -1,18 +1,12 @@
-import fetch from 'node-fetch'
+import axios from 'axios'
+import queryString from 'querystring'
 
-// Send HTTP request with FETCH
-export const sendHttpRequest = async (endpoint) => {
-  try {
-    const response = await fetch(endpoint)
-    return response.json()
-  } catch (error) {
-    throw new Error(`Something went wrong: HTTP Request has failed!`)
-  }
-}
+export const sendHttpRequest = (baseUrl, queryParamObject) =>
+  axios.get(`${baseUrl}?${queryString.stringify(queryParamObject)}`)
 
-export const getLocationList = (response) =>
-  response && response.results
-    ? response.results.map((item) => ({
+export const transformLocationList = (data) =>
+  data && data.results
+    ? data.results.map((item) => ({
         name: item.formatted,
         flag: item.annotations.flag,
         lat: item.geometry.lat,
@@ -20,20 +14,31 @@ export const getLocationList = (response) =>
       }))
     : []
 
-// Construct location APi endpoint URL
-export const getLocationApiEndpoint = (ipLocationApiEndpoint, ip) =>
-  `${ipLocationApiEndpoint}&ipAddress=${ip}`
+export const transformWeatherData = async (data) => {
+  // Validate weather data
+  if (typeof data.daily === 'undefined') {
+    throw new Error('Daily weather data is missing.')
+  } else if (typeof data.currently === 'undefined') {
+    throw new Error('Current weather data is missing.')
+  }
 
-// Construct Dark Sky API endpoint URL
-export const getDarkSkyApiEndpoint = (
-  darkSkyApiEndpoint,
-  lat,
-  lng,
-  timestamp
-) =>
-  `${darkSkyApiEndpoint}/${lat},${lng}` +
-  (typeof timestamp !== 'undefined' ? `,${timestamp}` : ``) +
-  `?exclude=minutely,hourly,alerts,flags&units=si`
+  // Get current weather data
+  const { time, summary, icon, temperature } = data.currently
+  // Get weekly weather data
+  const daily = data.daily.data.map((item) => ({
+    time: item.time,
+    icon: item.icon,
+    temperatureHigh: item.temperatureHigh,
+    temperatureLow: item.temperatureLow,
+  }))
 
-export const getOpenCageApiEndpoint = (openCageApiEndpoint, location) =>
-  openCageApiEndpoint.replace('__PLACENAME__', location)
+  return {
+    daily,
+    currently: {
+      time,
+      summary,
+      icon,
+      temperature,
+    },
+  }
+}

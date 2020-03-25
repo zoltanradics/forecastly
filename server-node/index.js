@@ -6,21 +6,19 @@ import { query, validationResult } from 'express-validator'
 
 import {
   sendHttpRequest,
-  getLocationApiEndpoint,
-  getDarkSkyApiEndpoint,
-  getOpenCageApiEndpoint,
-  getLocationList,
+  transformLocationList,
+  transformWeatherData,
 } from './helpers'
 
 const isDev = process.env.NODE_ENV !== 'production'
 const PORT = isDev ? 3000 : 80
 const testIpAddress = '77.57.123.202' // This IP address is for Zurich / Switzerland
 const IP_LOCATION_KEY = process.env.IP_LOCATION_KEY || config().key.ip_location
-const IP_LOCATION_API_ENDPOINT = `https://ip-geolocation.whoisxmlapi.com/api/v1?apiKey=${IP_LOCATION_KEY}`
+const IP_LOCATION_API_ENDPOINT = `https://ip-geolocation.whoisxmlapi.com/api/v1`
 const DARK_SKY_KEY = process.env.DARK_SKY_KEY || config().key.dark_sky
 const DARK_SKY_API_ENDPOINT = `https://api.darksky.net/forecast/${DARK_SKY_KEY}`
 const OPEN_CAGE_KEY = process.env.OPEN_CAGE_KEY || config().key.open_cage
-const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json?q=__PLACENAME__&key=${OPEN_CAGE_KEY}&limit=5`
+const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json`
 
 // Init Firebase admin
 admin.initializeApp()
@@ -44,26 +42,29 @@ app.use((req, res, next) => {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 app.get('/location-by-ip', async (req, res) => {
-  const ip = isDev
+  const ipAddress = isDev
     ? testIpAddress
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
-  // Construct URL
-  const locationApiEndpoint = getLocationApiEndpoint(
-    IP_LOCATION_API_ENDPOINT,
-    ip
-  )
-
   // Send HTTP request
   const {
-    location: { country, city, lat, lng },
-  } = await sendHttpRequest(locationApiEndpoint).catch((error) => {
+    data: {
+      location: { country, city, lat, lng },
+    },
+  } = await sendHttpRequest(IP_LOCATION_API_ENDPOINT, {
+    apiKey: IP_LOCATION_KEY,
+    ip: ipAddress,
+  }).catch((_error) => {
     res.status(500).json({
       message: 'Something went wrong: Requesting location by ip address',
     })
   })
 
-  res.json({ name: `${country}, ${city}`, lattitude: lat, longitude: lng })
+  res.json({
+    name: `${country}, ${city}`,
+    lattitude: lat,
+    longitude: lng,
+  })
 })
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -86,23 +87,19 @@ app.get(
     // Get query parameters
     const { location } = req.query
 
-    // Construct URL
-    const locationApiEndpoint = getOpenCageApiEndpoint(
-      OPEN_CAGE_API_ENDPOINT,
-      location
-    )
-
     // Send HTTP request
-    const response = await sendHttpRequest(locationApiEndpoint).catch(
-      (error) => {
-        res.status(500).json({
-          message:
-            'Something went wrong: Requesting location data by location name.',
-        })
-      }
-    )
+    const { data } = await sendHttpRequest(OPEN_CAGE_API_ENDPOINT, {
+      key: OPEN_CAGE_KEY,
+      q: location,
+      limit: 5,
+    }).catch((_error) => {
+      res.status(500).json({
+        message:
+          'Something went wrong: Requesting location data by location name.',
+      })
+    })
 
-    res.json(getLocationList(response))
+    res.json(transformLocationList(data))
   }
 )
 
@@ -128,32 +125,30 @@ app.get(
     }
 
     // Get query parameters
-    let { lattitude, longitude, timestamp } = req.query
-
-    // Get user's IP address
-    const ip = isDev
-      ? testIpAddress
-      : req.headers['x-forwarded-for'] || req.connection.remoteAddress
-
-    // Construct URL
-    const darkSkyApiEndpoint = getDarkSkyApiEndpoint(
-      DARK_SKY_API_ENDPOINT,
-      lattitude,
-      longitude,
-      timestamp
-    )
+    let { lattitude, longitude } = req.query
 
     // Send HTTP request
-    const data = await sendHttpRequest(darkSkyApiEndpoint).catch((error) => {
+    const { data } = await sendHttpRequest(
+      `${DARK_SKY_API_ENDPOINT}/${lattitude},${longitude}`,
+      {
+        exclude: 'minutely,hourly,alerts,flags',
+        units: 'si',
+      }
+    ).catch((error) => {
       res
         .status(500)
         .json({ message: `Something went wrong: Requesting user's weather!` })
     })
 
-    res.json(data)
+    const transformedData = await transformWeatherData(data).catch((error) => {
+      res.status(500).json({ message: error })
+    })
+
+    res.json(transformedData)
   }
 )
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+// Export Express app to Firebase
 export const api = https.onRequest(app)
