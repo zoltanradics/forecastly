@@ -125,6 +125,11 @@ main {
       height: 14rem;
     }
 
+    &--error {
+      @include align-middle;
+      height: 14rem;
+    }
+
     &--search {
       height: 14rem;
     }

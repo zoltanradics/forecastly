@@ -8,9 +8,9 @@ import { getDateString } from './utils'
 import Search from './components/Search'
 import Loading from './components/Loading'
 import Display from './components/Display'
+import Error from './components/Error'
 
 const App = () => {
-  const dispatch = useDispatch()
   const {
     layout: { mode },
     location,
@@ -22,6 +22,7 @@ const App = () => {
       <div className="box">
         <div className={`box__inner box__inner--${mode}`}>
           {mode === 'loading' && <Loading label />}
+          {mode === 'error' && <Error />}
           {mode === 'search' && <Search />}
           {mode === 'display' && (
             <Display daily={daily} currently={currently} location={location} />
