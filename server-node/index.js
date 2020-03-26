@@ -161,6 +161,7 @@ app.get(
       }
     )
 
+    // Return data in JSON
     res.json(transformedData)
   }
 )
