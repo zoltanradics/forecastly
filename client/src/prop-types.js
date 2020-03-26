@@ -14,6 +14,13 @@ export const currentlyPropTypes = {
   temperature: PropTypes.number,
 }
 
+export const dailyPropTypes = {
+  time: PropTypes.number,
+  icon: PropTypes.string,
+  temperatureHigh: PropTypes.number,
+  temperatureLow: PropTypes.number,
+}
+
 export const displayPropTypes = {
   daily: PropTypes.any.isRequired,
   currently: PropTypes.shape(currentlyPropTypes),
