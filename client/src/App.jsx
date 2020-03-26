@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import classNames from 'classnames'
 
-import { requestWeatherDataAction } from './redux/actions'
-
-import { getDateString } from './utils'
 import Search from './components/Search'
 import Loading from './components/Loading'
 import Display from './components/Display'
