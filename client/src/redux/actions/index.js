@@ -7,6 +7,7 @@ export const actionTypes = {
   REQUEST_WEATHER_FAILED: 'REQUEST_WEATHER_FAILED',
   REQUEST_LOCATION_SUGGESTIONS_SUCCESS: 'REQUEST_LOCATION_SUGGESTIONS_SUCCESS',
   REQUEST_LOCATION_SUGGESTIONS_FAILED: 'REQUEST_LOCATION_SUGGESTIONS_FAILED',
+  CLEAR_LOCATION_SUGGESTIONS: 'CLEAR_LOCATION_SUGGESTIONS',
 }
 
 const apiBaseURL =
@@ -108,3 +109,7 @@ export const requestWeatherDataAction = (lattitude, longitude, name) => async (
     payload: 'display',
   })
 }
+
+export const dumpSuggestionAction = () => ({
+  type: actionTypes.CLEAR_LOCATION_SUGGESTIONS,
+})

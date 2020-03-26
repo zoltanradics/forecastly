@@ -14,6 +14,11 @@ const reducer = (state = {}, action) => {
         ...state,
         suggestions: payload,
       }
+    case actionTypes.CLEAR_LOCATION_SUGGESTIONS:
+      return {
+        ...state,
+        suggestions: [],
+      }
   }
 
   return state
