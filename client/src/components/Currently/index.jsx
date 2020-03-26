@@ -22,7 +22,7 @@ const Currently = ({ location, currently }) => {
       <div className="col location">
         <div className="label">{name}</div>
         <div>
-          <button className="edit-button" onClick={editLocation}>
+          <button className="button" onClick={editLocation}>
             EDIT LOCATION
           </button>
         </div>

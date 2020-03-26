@@ -58,6 +58,17 @@ $unit: 0.4rem;
   }
 }
 
+.button {
+  padding: rem(1);
+  font-size: rem(1.5);
+  font-weight: $font-weight-base;
+  border: none;
+  background-color: $background-default;
+  border-radius: rem(1);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // General classes
@@ -180,15 +191,6 @@ main {
       font-size: rem(4);
       font-weight: $font-weight-bold;
       letter-spacing: -0.04rem;
-
-      .edit-button {
-        padding: rem(1);
-        font-size: rem(1.5);
-        font-weight: $font-weight-base;
-        border: none;
-        background-color: $background-default;
-        border-radius: rem(1);
-      }
     }
 
     &.icon {
