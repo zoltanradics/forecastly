@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const actionTypes = {
   SET_MODE: 'SET_MODE',
   SET_LOCATION: 'SET_LOCATION',
@@ -15,8 +17,8 @@ const apiBaseURL =
     ? 'http://localhost:5001/forecastly-46d2c/europe-west1/api'
     : 'https://europe-west1-forecastly-46d2c.cloudfunctions.net/api'
 const locationApiEndpoint = `${apiBaseURL}/location-by-ip`
-const weatherApiEndpoint = `${apiBaseURL}/weather`
 const geocodingApiEndpoint = `${apiBaseURL}/location-by-name`
+const weatherApiEndpoint = `${apiBaseURL}/weather`
 
 export const setModeAction = (payload) => ({
   type: actionTypes.SET_MODE,
@@ -31,39 +33,53 @@ export const requestLocationAction = () => async (dispatch) => {
   })
 
   // Send request to get data (and handle error)
-  const response = await fetch(locationApiEndpoint).catch(() => {
+  const response = await axios.get(locationApiEndpoint).catch(() => {
+    // Set layout mode
     dispatch({
-      type: actionTypes.REQUEST_LOCATION_FAILED,
+      type: actionTypes.SET_MODE,
+      payload: 'error',
     })
   })
 
-  // Get data from response
-  const { lattitude, longitude, name } = await response.json()
-
-  // Request weather data
-  dispatch(requestWeatherDataAction(lattitude, longitude, name))
+  if (
+    typeof response !== 'undefined' &&
+    typeof response.data !== 'undefined' &&
+    typeof response.data.lattitude !== 'undefined' &&
+    typeof response.data.longitude !== 'undefined' &&
+    typeof response.data.name !== 'undefined'
+  ) {
+    // Request weather data
+    dispatch(
+      requestWeatherDataAction(
+        response.data.lattitude,
+        response.data.longitude,
+        response.data.name
+      )
+    )
+  }
 }
 
 export const requestLocationSuggestionAction = (locationName) => async (
   dispatch
 ) => {
   // Send request to get data (and handle error)
-  const response = await fetch(
-    `${geocodingApiEndpoint}?location=${locationName}`
-  ).catch(() => {
-    dispatch({
-      type: actionTypes.REQUEST_LOCATION_SUGGESTIONS_FAILED,
+  const response = await axios
+    .get(`${geocodingApiEndpoint}?location=${locationName}`)
+    .catch(() => {
+      // Set layout mode
+      dispatch({
+        type: actionTypes.SET_MODE,
+        payload: 'error',
+      })
     })
-  })
 
-  // Get data from response
-  const data = await response.json()
-
-  // Add data to redux store
-  dispatch({
-    type: actionTypes.REQUEST_LOCATION_SUGGESTIONS_SUCCESS,
-    payload: data,
-  })
+  if (typeof response !== 'undefined' && typeof response.data !== 'undefined') {
+    // Add data to redux store
+    dispatch({
+      type: actionTypes.REQUEST_LOCATION_SUGGESTIONS_SUCCESS,
+      payload: response.data,
+    })
+  }
 }
 
 export const requestWeatherDataAction = (lattitude, longitude, name) => async (
@@ -91,29 +107,34 @@ export const requestWeatherDataAction = (lattitude, longitude, name) => async (
   }`
 
   // Send request to get data (and handle error)
-  const response = await fetch(url).catch(() => {
+  const response = await axios.get(url).catch(() => {
     dispatch({
-      type: actionTypes.REQUEST_WEATHER_FAILED,
+      type: actionTypes.SET_MODE,
+      payload: 'error',
     })
   })
 
-  // Get data from response
-  const data = await response.json()
+  if (
+    typeof response !== 'undefined' &&
+    typeof response.data !== 'undefined' &&
+    typeof response.data.daily !== 'undefined' &&
+    typeof response.data.currently !== 'undefined'
+  ) {
+    // Add weather data to redux store
+    dispatch({
+      type: actionTypes.REQUEST_WEATHER_SUCCESS,
+      payload: {
+        daily: response.data.daily,
+        currently: response.data.currently,
+      },
+    })
 
-  // Add weather data to redux store
-  dispatch({
-    type: actionTypes.REQUEST_WEATHER_SUCCESS,
-    payload: {
-      daily: data.daily,
-      currently: data.currently,
-    },
-  })
-
-  // Set layout mode
-  dispatch({
-    type: actionTypes.SET_MODE,
-    payload: 'display',
-  })
+    // Set layout mode
+    dispatch({
+      type: actionTypes.SET_MODE,
+      payload: 'display',
+    })
+  }
 }
 
 export const dumpSuggestionAction = () => ({
