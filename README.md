@@ -14,7 +14,7 @@ The frontend is written in Javascript ES2015+, built with React + Redux. I haven
 
 #### Backend
 
-The backend is written in Javascript ES2015+, built with ExpressJS. I created the backend from scratch, so I haven't used any scaffolding tool. I like those tools but they usually comes with complexity which was not needed for this case and also kept the dependencies on the minimum. The backend uses 3 external APIs:
+The backend is written in Javascript ES2015+, built with ExpressJS. I created the backend from scratch, so I haven't used any scaffolding tool. I like those tools but they usually comes with complexity which was not needed for this case and also kept the dependencies on the minimum. The backend have been deployed to Firebase Cloud functions this is where the demo runs. The backend uses 3 external APIs:
 
 - IpAPI to identify user's location by IP address
 - DarkSky API to get weather data by location (this was recommended in the assignment description by you)
