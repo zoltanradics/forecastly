@@ -21,7 +21,7 @@ const App = () => {
     <main className={currently ? currently.icon : ''}>
       <div className="box">
         <div className={`box__inner box__inner--${mode}`}>
-          {mode === 'loading' && <Loading />}
+          {mode === 'loading' && <Loading label />}
           {mode === 'search' && <Search />}
           {mode === 'display' && (
             <Display daily={daily} currently={currently} location={location} />
