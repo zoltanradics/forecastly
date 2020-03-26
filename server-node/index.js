@@ -11,11 +11,8 @@ import {
 } from './helpers'
 
 const isDev = process.env.NODE_ENV !== 'production'
-const PORT = isDev ? 3000 : 80
 const testIpAddress = '77.57.123.202' // This IP address is for Zurich / Switzerland
-const IP_LOCATION_KEY =
-  process.env.IP_LOCATION_KEY || functions.config().key.ip_location
-const IP_LOCATION_API_ENDPOINT = `https://ip-geolocation.whoisxmlapi.com/api/v1`
+const IP_LOCATION_API_ENDPOINT = `https://ipapi.co/__IP__/json`
 const DARK_SKY_KEY = process.env.DARK_SKY_KEY || functions.config().key.dark_sky
 const DARK_SKY_API_ENDPOINT = `https://api.darksky.net/forecast/${DARK_SKY_KEY}`
 const OPEN_CAGE_KEY =
@@ -49,24 +46,32 @@ app.get('/location-by-ip', async (req, res) => {
     : req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
   // Send HTTP request
-  const {
-    data: {
-      location: { country, city, lat, lng },
-    },
-  } = await sendHttpRequest(IP_LOCATION_API_ENDPOINT, {
-    apiKey: IP_LOCATION_KEY,
-    ip: ipAddress,
-  }).catch((_error) => {
+  const response = await sendHttpRequest(
+    IP_LOCATION_API_ENDPOINT.replace('__IP__', ipAddress)
+  ).catch((_error) => {
     res.status(500).json({
-      message: 'Something went wrong: Requesting location by ip address',
+      message: 'Something went wrong: Requesting location by ip address.',
     })
   })
 
-  res.json({
-    name: `${country}, ${city}`,
-    lattitude: lat,
-    longitude: lng,
-  })
+  if (
+    typeof response !== 'undefined' &&
+    typeof response.data !== 'undefined' &&
+    typeof response.data.country_name !== 'undefined' &&
+    typeof response.data.city !== 'undefined' &&
+    typeof response.data.latitude !== 'undefined' &&
+    typeof response.data.longitude !== 'undefined'
+  ) {
+    res.json({
+      name: `${response.data.country_name}, ${response.data.city}`,
+      lattitude: response.data.latitude,
+      longitude: response.data.longitude,
+    })
+  } else {
+    res.status(500).json({
+      message: 'Something went wrong: Wrong location data.',
+    })
+  }
 })
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
