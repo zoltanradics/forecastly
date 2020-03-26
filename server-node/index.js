@@ -64,7 +64,7 @@ app.get('/location-by-ip', async (req, res) => {
     // Return data in JSON
     res.json({
       name: `${response.data.country_name}, ${response.data.city}`,
-      lattitude: response.data.latitude,
+      latitude: response.data.latitude,
       longitude: response.data.longitude,
     })
   } else {
@@ -123,10 +123,10 @@ app.get(
 app.get(
   '/weather',
   [
-    query('lattitude')
+    query('latitude')
       .not()
       .isEmpty()
-      .withMessage('Query param "lattitude" is mandatory!'),
+      .withMessage('Query param "latitude" is mandatory!'),
     query('longitude')
       .not()
       .isEmpty()
@@ -140,11 +140,11 @@ app.get(
     }
 
     // Get query parameters
-    let { lattitude, longitude } = req.query
+    let { latitude, longitude } = req.query
 
     // Send HTTP request
     const response = await sendHttpRequest(
-      `${DARK_SKY_API_ENDPOINT}/${lattitude},${longitude}`,
+      `${DARK_SKY_API_ENDPOINT}/${latitude},${longitude}`,
       {
         exclude: 'minutely,hourly,alerts,flags',
         units: 'si',

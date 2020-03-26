@@ -44,14 +44,14 @@ export const requestLocationAction = () => async (dispatch) => {
   if (
     typeof response !== 'undefined' &&
     typeof response.data !== 'undefined' &&
-    typeof response.data.lattitude !== 'undefined' &&
+    typeof response.data.latitude !== 'undefined' &&
     typeof response.data.longitude !== 'undefined' &&
     typeof response.data.name !== 'undefined'
   ) {
     // Request weather data
     dispatch(
       requestWeatherDataAction(
-        response.data.lattitude,
+        response.data.latitude,
         response.data.longitude,
         response.data.name
       )
@@ -82,7 +82,7 @@ export const requestLocationSuggestionAction = (locationName) => async (
   }
 }
 
-export const requestWeatherDataAction = (lattitude, longitude, name) => async (
+export const requestWeatherDataAction = (latitude, longitude, name) => async (
   dispatch
 ) => {
   // Set layout mode
@@ -94,15 +94,15 @@ export const requestWeatherDataAction = (lattitude, longitude, name) => async (
   dispatch({
     type: actionTypes.REQUEST_LOCATION_SUCCESS,
     payload: {
-      lattitude,
+      latitude,
       longitude,
       name,
     },
   })
 
   const url = `${weatherApiEndpoint}${
-    typeof lattitude !== 'undefined' && typeof longitude !== 'undefined'
-      ? `?lattitude=${lattitude}&longitude=${longitude}`
+    typeof latitude !== 'undefined' && typeof longitude !== 'undefined'
+      ? `?latitude=${latitude}&longitude=${longitude}`
       : ''
   }`
 
