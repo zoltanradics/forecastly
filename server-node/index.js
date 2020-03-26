@@ -27,9 +27,7 @@ app.use(cors())
 
 // Check if required API keys are defined
 app.use((req, res, next) => {
-  if (typeof IP_LOCATION_KEY === 'undefined') {
-    res.status(500).json({ message: 'IP_LOCATION_KEY is undefined!' })
-  } else if (typeof DARK_SKY_KEY === 'undefined') {
+  if (typeof DARK_SKY_KEY === 'undefined') {
     res.status(500).json({ message: 'DARK_SKY_KEY is undefined!' })
   } else if (typeof OPEN_CAGE_KEY === 'undefined') {
     res.status(500).json({ message: 'OPEN_CAGE_KEY is undefined!' })
@@ -54,6 +52,7 @@ app.get('/location-by-ip', async (req, res) => {
     })
   })
 
+  // Check if requred data does exist
   if (
     typeof response !== 'undefined' &&
     typeof response.data !== 'undefined' &&
@@ -62,6 +61,7 @@ app.get('/location-by-ip', async (req, res) => {
     typeof response.data.latitude !== 'undefined' &&
     typeof response.data.longitude !== 'undefined'
   ) {
+    // Return data in JSON
     res.json({
       name: `${response.data.country_name}, ${response.data.city}`,
       lattitude: response.data.latitude,
@@ -95,7 +95,7 @@ app.get(
     const { location } = req.query
 
     // Send HTTP request
-    const { data } = await sendHttpRequest(OPEN_CAGE_API_ENDPOINT, {
+    const response = await sendHttpRequest(OPEN_CAGE_API_ENDPOINT, {
       key: OPEN_CAGE_KEY,
       q: location,
       limit: 5,
@@ -106,7 +106,15 @@ app.get(
       })
     })
 
-    res.json(transformLocationList(data))
+    // Transform recieved data
+    const transformedData = await transformLocationList(response).catch(
+      (error) => {
+        res.status(500).json({ message: error })
+      }
+    )
+
+    // Return data in JSON
+    res.json(transformedData)
   }
 )
 
@@ -135,7 +143,7 @@ app.get(
     let { lattitude, longitude } = req.query
 
     // Send HTTP request
-    const { data } = await sendHttpRequest(
+    const response = await sendHttpRequest(
       `${DARK_SKY_API_ENDPOINT}/${lattitude},${longitude}`,
       {
         exclude: 'minutely,hourly,alerts,flags',
@@ -147,9 +155,11 @@ app.get(
         .json({ message: `Something went wrong: Requesting user's weather!` })
     })
 
-    const transformedData = await transformWeatherData(data).catch((error) => {
-      res.status(500).json({ message: error })
-    })
+    const transformedData = await transformWeatherData(response).catch(
+      (error) => {
+        res.status(500).json({ message: error })
+      }
+    )
 
     res.json(transformedData)
   }
