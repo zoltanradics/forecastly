@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import ReactAnimatedWeather from 'react-animated-weather'
 
+import { currentlyPropTypes } from '../../prop-types'
 import { setModeAction } from '../../redux/actions'
 import { round } from '../../utils'
 
@@ -47,5 +48,7 @@ const Currently = ({ location, currently }) => {
     </div>
   )
 }
+
+Currently.propTypes = currentlyPropTypes
 
 export default Currently

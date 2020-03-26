@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import ReactAnimatedWeather from 'react-animated-weather'
 
+import { dailyPropTypes } from '../../prop-types'
 import { getDayAbbrev, round } from '../../utils'
 
 const Daily = ({ daily }) => (
@@ -45,5 +46,7 @@ const Daily = ({ daily }) => (
     })}
   </ul>
 )
+
+Daily.propTypes = dailyPropTypes
 
 export default Daily
