@@ -24,6 +24,12 @@ export const setModeAction = (payload) => ({
 })
 
 export const requestLocationAction = () => async (dispatch) => {
+  // Set layout mode
+  dispatch({
+    type: actionTypes.SET_MODE,
+    payload: 'loading',
+  })
+
   // Send request to get data (and handle error)
   const response = await fetch(locationApiEndpoint).catch(() => {
     dispatch({
