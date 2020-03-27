@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import ReactAnimatedWeather from 'react-animated-weather'
 
 import { dailyPropTypes } from '../../prop-types'
-import { getDayAbbrev, round } from '../../utils'
+import { getDayAbbrev, dayAbbreviations, round } from '../../utils'
 
 const Daily = ({ daily }) => (
   <ul className="daily">
@@ -17,8 +17,9 @@ const Daily = ({ daily }) => (
           <div className="col day">
             <div className="label text-center">
               {getDayAbbrev(
-                new Date(dailyData.time * 1000 + 86400000)
-              ).toUpperCase()}
+                new Date(dailyData.time * 1000 + 86400000),
+                dayAbbreviations
+              )}
             </div>
           </div>
           <div className="col temperature">

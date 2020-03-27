@@ -1,5 +1,5 @@
 // Dat abbreviation map
-const dayAbbreviations = {
+export const dayAbbreviations = {
   '0': 'Sun',
   '1': 'Mon',
   '2': 'Tue',
@@ -13,10 +13,14 @@ const dayAbbreviations = {
 export const round = (number) => Math.round(number)
 
 // Get date in YYYY-MM-DD format
-export const getDateString = (date) => date.toISOString().split('T')[0]
+export const getDateString = (date) =>
+  date instanceof Date ? date.toISOString().split('T')[0] : null
 
 // Transform UTCDay to day abbreviation
-export const getDayAbbrev = (date) => dayAbbreviations[date.getUTCDay()] || null
+export const getDayAbbrev = (date, dayAbbreviations) =>
+  date instanceof Date && typeof dayAbbreviations !== 'undefined'
+    ? dayAbbreviations[date.getUTCDay()]
+    : null
 
 // Data transformation for weater data
 export const transformWeatherData = (data) =>
