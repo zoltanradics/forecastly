@@ -22,6 +22,6 @@ The backend is written in Javascript ES2015+, built with ExpressJS. I created th
 
 ##### Notes
 
-- Frontend wasn't tested on IE, I think it would fail around IE11 as I am not sure if Axios HTTP library supports it
+- Frontend wasn't tested on IE
 - I am sorry for my CSS! :) It's maybe not my greatest skill
 - There is always space to improve so I am sure I could workout the assignment even more but I though the provided code will give you enough overview of my work
