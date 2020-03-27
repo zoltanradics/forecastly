@@ -233,6 +233,7 @@ main {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 .daily {
+  animation: fadeIn 320ms ease-in-out;
   position: absolute;
   bottom: 0;
   margin: 0;
@@ -383,4 +384,8 @@ main {
       }
     }
   }
+}
+
+.my-node-enter {
+  border: 1px solid red;
 }
