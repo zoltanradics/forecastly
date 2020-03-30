@@ -13,7 +13,7 @@ sh install.sh
 // 2. Run client
 sh start-client.sh
 
-// 2. Run server
+// 3. Run server (on a separated thread)
 sh start-server.sh
 ```
 
