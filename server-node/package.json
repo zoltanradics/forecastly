@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules, --copy-files",
-    "start": "npm run build && firebase emulators:start --only functions"
+    "start": "npm run build && node dist/index.js"
   },
   "repository": {
     "type": "git",

@@ -10,6 +10,7 @@ import {
   transformWeatherData,
 } from './helpers'
 
+const PORT = 3000
 const isDev = process.env.NODE_ENV !== 'production'
 const testIpAddress = '77.57.123.202' // This IP address is for Zurich / Switzerland
 const IP_LOCATION_API_ENDPOINT = `https://ipapi.co/__IP__/json`
@@ -20,7 +21,9 @@ const OPEN_CAGE_KEY =
 const OPEN_CAGE_API_ENDPOINT = `https://api.opencagedata.com/geocode/v1/json`
 
 // Init Firebase admin
-admin.initializeApp()
+if (!isDev) {
+  admin.initializeApp()
+}
 
 const app = express()
 app.use(cors())
@@ -169,4 +172,6 @@ app.get(
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Export Express app to Firebase
-export const api = functions.region('europe-west1').https.onRequest(app)
+export const api = isDev
+  ? app.listen(PORT, console.log(new Date(), `App listening on port ${PORT}!`))
+  : functions.region('europe-west1').https.onRequest(app)

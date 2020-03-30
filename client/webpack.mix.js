@@ -1,4 +1,5 @@
 const mix = require('laravel-mix')
+const path = require('path')
 
 /*
  |--------------------------------------------------------------------------
@@ -17,3 +18,10 @@ mix
   .extract()
   .copy(['./src/index.html', './src/manifest.json'], './public/')
   .copyDirectory('./src/assets', './public/assets')
+  .webpackConfig({
+    devServer: {
+      contentBase: path.join(__dirname, 'public'),
+      compress: true,
+      port: 8000,
+    },
+  })

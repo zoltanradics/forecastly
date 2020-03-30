@@ -4,6 +4,19 @@ Assignment of Zoltan Radics (zoltan.radics@gmail.com)
 
 You can try the final app deployed here: https://forecastly-46d2c.firebaseapp.com/
 
+If you want to run app locally, run the following commands on the root folder of the project.
+
+```
+// 1. Install all dependencies
+sh install.sh
+
+// 2. Run client
+sh start-client.sh
+
+// 2. Run server
+sh start-server.sh
+```
+
 ---
 
 ### Components
