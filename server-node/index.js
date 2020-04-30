@@ -58,16 +58,16 @@ app.get('/location-by-ip', async (req, res) => {
   // Check if requred data does exist
   if (
     typeof response !== 'undefined' &&
-    typeof response?.data?.country_name !== 'undefined' &&
-    typeof response?.data?.city !== 'undefined' &&
-    typeof response?.data?.latitude !== 'undefined' &&
-    typeof response?.data?.longitude !== 'undefined'
+    typeof response.data.country_name !== 'undefined' &&
+    typeof response.data.city !== 'undefined' &&
+    typeof response.data.latitude !== 'undefined' &&
+    typeof response.data.longitude !== 'undefined'
   ) {
     // Return data in JSON
     res.json({
-      name: `${response?.data?.country_name}, ${response?.data?.city}`,
-      latitude: response?.data?.latitude,
-      longitude: response?.data?.longitude,
+      name: `${response.data.country_name}, ${response.data.city}`,
+      latitude: response.data.latitude,
+      longitude: response.data.longitude,
     })
   } else {
     res.status(500).json({
